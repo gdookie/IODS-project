@@ -1,4 +1,31 @@
+---
+title: "Open Data Science 2017"
+subtitle: "Chapter 1"
+author: "Gyan Dookie"
+date: "24 January 2017"
+output: html_document
+---
+***
+# Hello All Open Data Science People!
+## This course is awesome!
+I'm really exited about this course. Here's a couple of reasons why.
 
-# About the project
+* Open data science is a combination of superduper interesting things
+    + statistics
+    + programming
+    + datamining
+    + open source
+* The course lecturer and assistants are super helpful and cool
+* The course is constantly evolving
 
-*Write a short description about the course and add a link to your github repository here. This is an R markdown (.Rmd) file so you can use R markdown syntax. See the 'Useful links' page in the mooc area (chapter 1) for instructions.*
+
+
+```
+R code goes here!
+```
+
+> *"Life is a continuous learning path."*
+
+[Check out my IODS-project on GitHub!](https://github.com/gdookie/IODS-project)
+
+<!-- Write a short description about the course and add a link to your github repository here. This is an R markdown (.Rmd) file so you can use R markdown syntax. See the 'Useful links' page in the mooc area (chapter 1) for instructions.-->
