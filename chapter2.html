@@ -158,9 +158,8 @@ $(document).ready(function () {
 <ol style="list-style-type: decimal">
 <li>Show the structure of the dataframe with the str() function</li>
 </ol>
-<pre class="r"><code>str(lrn2014)</code></pre>
-<pre><code>## 'data.frame':    166 obs. of  8 variables:
-##  $ X       : int  1 2 3 4 5 6 7 8 9 10 ...
+<pre class="r"><code>str(lrn2014[-1])</code></pre>
+<pre><code>## 'data.frame':    166 obs. of  7 variables:
 ##  $ gender  : Factor w/ 2 levels &quot;F&quot;,&quot;M&quot;: 1 2 1 2 2 1 2 1 2 1 ...
 ##  $ Age     : int  53 55 49 53 49 38 50 37 37 42 ...
 ##  $ attitude: num  3.7 3.1 2.5 3.5 3.7 3.8 3.5 2.9 3.8 2.1 ...
@@ -171,23 +170,23 @@ $(document).ready(function () {
 <ol start="2" style="list-style-type: decimal">
 <li>Show the dimensions of the dataframe with the dim() function</li>
 </ol>
-<pre class="r"><code>dim(lrn2014)</code></pre>
-<pre><code>## [1] 166   8</code></pre>
+<pre class="r"><code>dim(lrn2014[-1])</code></pre>
+<pre><code>## [1] 166   7</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Show 10 first observations by using the head() -function</li>
 </ol>
-<pre class="r"><code>head(lrn2014, 10)</code></pre>
-<pre><code>##     X gender Age attitude  deep  stra     surf Points
-## 1   1      F  53      3.7 3.750 3.375 2.583333     25
-## 2   2      M  55      3.1 2.875 2.750 3.166667     12
-## 3   3      F  49      2.5 3.875 3.625 2.250000     24
-## 4   4      M  53      3.5 3.500 3.125 2.250000     10
-## 5   5      M  49      3.7 3.750 3.625 2.833333     22
-## 6   6      F  38      3.8 4.875 3.625 2.416667     21
-## 7   7      M  50      3.5 4.250 2.250 1.916667     21
-## 8   8      F  37      2.9 3.500 4.000 2.833333     31
-## 9   9      M  37      3.8 4.500 4.250 2.166667     24
-## 10 10      F  42      2.1 4.000 3.500 3.000000     26</code></pre>
+<pre class="r"><code>head(lrn2014[-1], 10)</code></pre>
+<pre><code>##    gender Age attitude  deep  stra     surf Points
+## 1       F  53      3.7 3.750 3.375 2.583333     25
+## 2       M  55      3.1 2.875 2.750 3.166667     12
+## 3       F  49      2.5 3.875 3.625 2.250000     24
+## 4       M  53      3.5 3.500 3.125 2.250000     10
+## 5       M  49      3.7 3.750 3.625 2.833333     22
+## 6       F  38      3.8 4.875 3.625 2.416667     21
+## 7       M  50      3.5 4.250 2.250 1.916667     21
+## 8       F  37      2.9 3.500 4.000 2.833333     31
+## 9       M  37      3.8 4.500 4.250 2.166667     24
+## 10      F  42      2.1 4.000 3.500 3.000000     26</code></pre>
 <div id="visualize-the-data-by-plotting-it" class="section level4">
 <h4>Visualize the data by plotting it</h4>
 <div id="show-a-graphical-overview-and-summaries-of-the-data-2.2" class="section level5">

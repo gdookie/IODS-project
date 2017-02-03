@@ -14,7 +14,7 @@
 - Assume the reader has no previous knowledge of your data or the more advanced methods you are using
 
 
-```{r, echo= FALSE}
+```{r, echo = FALSE}
 ### Install the packages which are needed
 ### install.packages("ggplot2")
 library(ggplot2)
@@ -23,7 +23,7 @@ library(ggplot2)
 library(GGally)
 ```
 
-```{r, echo= FALSE}
+```{r, echo = FALSE}
 ### Load in the dplyr library that has many usefule functions for data wrangling
 library(dplyr)
 ```
@@ -46,18 +46,18 @@ lrn2014 <- read.table("data/learning2014.csv", sep=",",  header=TRUE)
 1. Show the structure of the dataframe with the str() function 
 
 ```{r}
-str(lrn2014)
+str(lrn2014[-1])
 
 
 
 ```
 2. Show the dimensions of the dataframe with the dim() function
 ```{r}
-dim(lrn2014)
+dim(lrn2014[-1])
 ```
 3. Show 10 first observations by using the head() -function
 ```{r}
-head(lrn2014, 10)
+head(lrn2014[-1], 10)
 ```
 #### Visualize the data by plotting it
 ##### Show a graphical overview and summaries of the data (2.2)
