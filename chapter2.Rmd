@@ -7,12 +7,6 @@
 
 ***
 
-*Describe the work you have done this week and summarize your learning.*
-
-- Describe your work and results clearly. 
-- Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods
-- Assume the reader has no previous knowledge of your data or the more advanced methods you are using
-
 
 ```{r, echo = FALSE}
 ### Install the packages which are needed
@@ -39,10 +33,8 @@ lrn2014 <- read.table("data/learning2014.csv", sep=",",  header=TRUE)
 ```{r, echo=FALSE}
 ###lrn2014 <- read.table("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/learning2014.txt", sep=",", header=TRUE)
 ```
-```{r}
 
-```
-## 2. Exploring the data
+## 2. Exploring and Visualizing the data
 1. Show the structure of the dataframe with the str() function 
 
 ```{r}
@@ -71,38 +63,53 @@ head(lrn2014[-1], 10)
 #ggplot(lrn2014, aes(x= surf, y=points)) + geom_point()
 
 ```
-*Add your overview analyses here*
+
 ```{r}
 ggpairs(lrn2014[-1], mapping = aes(col = gender, alpha = 0.3), lower = list(combo = wrap("facethist", bins = 20)))
 
 ### p2 <- pairs(learning2014, , col=learning2014$gender) 
 ```
+## 3. Modeling the Data
 #### Build a data model
-*Choose three variables as explanatory variables and fit a regression model where exam points is the target (dependent) variable. Show a summary of the fitted model and comment and interpret the results. Explain and interpret the statistical test related to the model parameters. If an explanatory variable in your model does not have a statistically significant relationship with the target variable, remove the variable from the model and fit the model again without it.*
+
 #### Exam points as the dependent variable and age, gender and attitude as explanatory variables
 
 ```{r}
-#age --> Age, points --> Points
-ggplot(lrn2014, aes(x= Age, y=Points, col=attitude)) + geom_point() + facet_grid(. ~ gender)
+
+ggplot(lrn2014, aes(x= Age, y=Points, col=attitude)) + geom_point() + facet_grid(. ~ gender) + ggtitle("Age, Attitude and Gender versus Course Points")
 ```
+
 
 ##### Fitting the regession model to the graphic shown above
 
 ```{r}
-#age --> Age
-ggplot(lrn2014, aes(x= Age, y=Points, col=attitude)) + geom_point() + facet_grid(. ~ gender) + stat_smooth(method="lm", col="red")
+
+ggplot(lrn2014, aes(x= Age, y=Points, col=attitude)) + geom_point() + facet_grid(. ~ gender) + stat_smooth(method="lm", col="red") + ggtitle("Age, Attitude and Gender versus Course Points")
 ```
 
 ##### Adding a smooth line to the graphic shown above
 
 ```{r}
-#age --> Age
-ggplot(lrn2014, aes(x= Age, y=Points, col=attitude)) + geom_point() + facet_grid(. ~ gender) + geom_smooth() +stat_smooth(method="lm", col="red")
+
+ggplot(lrn2014, aes(x= Age, y=Points, col=attitude)) + geom_point() + geom_smooth(method="lm")  + ggtitle("Age, Attitude and Gender versus Course Points") + facet_grid(. ~ gender)
 ```
 
-#### Interpret the model parameters
-*Using a summary of your fitted model, explain the relationship between the chosen explanatory variables and the target variable (interpret the model parameters). Explain and interpret the multiple R squared of the model.*
+
+## 4. Summarizing the Fitted Model and Interpreting the Model Parameters
+
+#### The regression model of Age, Attitude and Gender versus Course Points with the summary of the fitted model
+From the summary of the regression model below it can be deduced that age and male gender are  negatively correlated to course points while attitude affects course points in a very positive way.
+```{r}
+my_model2 <- lm(Points ~ Age + gender + attitude, data = lrn2014)
+summary(my_model2)
+```
+  
 
 #### Diagnostic plots
-*Produce the following diagnostic plots: Residuals vs Fitted values, Normal QQ-plot and Residuals vs Leverage. Explain the assumptions of the model and interpret the validity of those assumptions based on the diagnostic plots*  
+He are some diagnostic plots visualizing the model parameters: Residuals vs Fitted values, Normal QQ-plot and Residuals vs Leverage.  
+```{r, echo=FALSE}
+my_model2 <- lm(Points ~ Age + gender + attitude, data = lrn2014)
+par(mfrow = c(2,2))
+plot(my_model2, which = c(1:2, 5),  caption = list("Residuals vs Fitted", "Normal Q-Q",  "Residuals vs Leverage"))
+```
 
