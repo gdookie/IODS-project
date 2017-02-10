@@ -70,7 +70,7 @@ This summary indicates that high alcohol use affects more the mean final grade o
 #### 4.2 Visualizations
 
 ```{r, echo=FALSE}
-ggplot(alc_orig, aes(x= high_use, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("High alcohol usage vs sex") + ylab("The number of cases") + xlab("High alcohol usage") + guides(fill=guide_legend(title=""))
+ggplot(alc_orig, aes(x= high_use, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("High alcohol usage and sex") + ylab("The number of cases") + xlab("High alcohol usage") + guides(fill=guide_legend(title=""))
 ```
 
 From the barplot above we can also see, that high alcohol use and sex are somehow connected
@@ -160,7 +160,7 @@ The above summary statistics revealed something quite surprising. The combinatio
 
 ```{r, echo=FALSE}
 ## From the barplot below we can see, that internet at home doesn't affect alcohol usage
-ggplot(alc_orig, aes(x= studytime, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("Studytime vs. high alcohol use") + xlab("Studytime") + ylab("The number of cases") + guides(fill=guide_legend(title="High usage of alcohol"))
+ggplot(alc_orig, aes(x= studytime, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle(" High alcohol use and studytime ") + xlab("Studytime") + ylab("The number of cases") + guides(fill=guide_legend(title="High usage of alcohol"))
 ```
 
 The barplot above indicates that  for women the highest studytime and for men the second highest studytime means the proprotionally lowest alcohol usage (in relation to high usage).
