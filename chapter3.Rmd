@@ -28,7 +28,7 @@ Here we read the joined student alcohol consumption data into R ( *Remember that
 ```{r, echo=TRUE, results='hide'}
 
 alc <- read.table("data/alc_mod.csv", header= TRUE, sep=",")
-
+alc_orig <- alc
 ```
 ### 2. Preliminary explorations of the data
 The combined dataset's 35 variables are shown below and it has altogether 382 observations (rows)
@@ -68,6 +68,9 @@ alc1
 Drawing box plots
 
 ```{r, echo=FALSE}
+## From the barplot below we can see, that high alcohol use and sex are connected
+ggplot(alc_orig, aes(x= high_use, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("Sex vs high alcohol use") + ylab("The number of cases") + xlab("High alcohol usage") + guides(fill=guide_legend(title=""))
+
 # initialize a plot of high_use and G3
 g1 <- ggplot(alc, aes(x = high_use, y = G3, col=sex))
 
@@ -81,7 +84,17 @@ g1 + geom_boxplot() + ylab("Final grade")
 #g2
 # define the plot as a boxplot and draw it
 #g2 + ggtitle("Student absences by alcohol consumption and sex")
+
+
+ggplot(alc_orig, aes(x= factor(high_use), y=G3)) + geom_point() + facet_grid(. ~ sex) + stat_smooth(method="lm", col="red") + ggtitle("Final grade vs. high alcohol use") + ylab("Final grade") + xlab("High alcohol usage")
+
+ggplot(alc_orig, aes(x= G3, y=factor(high_use))) + geom_point() + facet_grid(. ~ sex) + stat_smooth(method="lm", col="red") + ggtitle("Final grade vs. high alcohol use") 
+
+
+
+
 ```
+
 
 
 #### 4.2 **Internet use and High alchol use vs. Final grade**
@@ -91,14 +104,18 @@ alc2 <- alc %>% group_by(internet, high_use) %>% summarise(count = n(), mean_gra
 alc2
 ```
 
-Drawing box plots
+**Visualization**
 
 ```{r, echo=FALSE}
+
+## From the barplot below we can see, that internet at home doesn't affect alcohol usage
+ggplot(alc_orig, aes(x= internet, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("Internet at home vs. high alcohol use") + ylab("The number of cases") + xlab("Internet at home")
+
 # initialize a plot of high_use and G3
 g1 <- ggplot(alc, aes(x = high_use, y = G3, col=internet))
 
 # define the plot as a boxplot and draw it
-g1 + geom_boxplot() + ylab("Final grade")
+g1 + geom_boxplot() + ylab("Final grade") + xlab("High alcohol usage")
 #g1 <- ggplot(alc, aes(x = high_use, y = G3, col=sex))
 #g1 + geom_boxplot() + ylab("grade")
 # initialise a plot of high_use and absences
@@ -115,21 +132,17 @@ Producing summary statistics by group
 alc3 <- alc %>% group_by(studytime, high_use) %>% summarise(count = n(), mean_grade= mean(G3))
 alc3
 ```
-Drawing box plots
-```{r, echo=FALSE}
-# initialize a plot of high_use and G3
-g1 <- ggplot(alc, aes(x = factor(high_use), col=G3 ))
+**Visualization**
 
-# define the plot as a boxplot and draw it
-g1 + geom_bar()
-#g1 <- ggplot(alc, aes(x = high_use, y = G3, col=sex))
-#g1 + geom_boxplot() + ylab("grade")
-# initialise a plot of high_use and absences
-#g2 <- ggplot(alc, aes(x = high_use, y = absences, col=sex)) 
-#g2 <- g2 + geom_boxplot() + ylab("absences")
-#g2
-# define the plot as a boxplot and draw it
-#g2 + ggtitle("Student absences by alcohol consumption and sex")
+The barplot below indicates that higher studytimes use means lower alcohol usage.
+
+```{r, echo=FALSE}
+## From the barplot below we can see, that internet at home doesn't affect alcohol usage
+ggplot(alc_orig, aes(x= studytime, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("Studytime vs. high alcohol use") + xlab("Studytime") + ylab("The number of cases")
+```
+
+```{r, echo=FALSE}
+
 ```
 
 ### 5. Exploring the relationship between my chosen variables and the binary high/low alcohol consumption variable with logistic regression
