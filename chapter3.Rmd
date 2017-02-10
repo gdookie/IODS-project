@@ -58,24 +58,31 @@ Next I'm gonna present my hypothesis of the relationships between high/low alcoh
       * Moderate alcohol use usually predicts longer life than no alcohol use, so there's some connection, I guess,  between the former and cognitive stamina. Nevertheless my hypothesis here is that high alcohol consumption results in lower final course grades. If you drink too much you will likely have more school absences and you will not be able to concentrate on cognitively challenging things. The correlation here would be negative and statistically significant
       
 ### 4. Exploring the distributions of my chosen variables numerically and graphically
-#### 4.1 **Sex and High alchol use vs. Final grade**
-Producing summary statistics by group
+#### 4.1 **Summary statistics of sex, high alcohol use and how these affect the mean of the final grade** 
+(Tämä pois**Sex and High alchol use vs. Final grade**)
+
 ```{r, echo=FALSE}
 alc1 <- alc %>% group_by(sex, high_use) %>% summarise(count = n(), mean_grade= mean(G3))
 alc1
 ```
+This summary indicates that high alcohol use affects more the mean final grade of males than the mean final grade of females.
 
-Drawing box plots
+#### 4.2 Visualizations
 
 ```{r, echo=FALSE}
-## From the barplot below we can see, that high alcohol use and sex are connected
-ggplot(alc_orig, aes(x= high_use, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("Sex vs high alcohol use") + ylab("The number of cases") + xlab("High alcohol usage") + guides(fill=guide_legend(title=""))
+ggplot(alc_orig, aes(x= high_use, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("High alcohol usage vs sex") + ylab("The number of cases") + xlab("High alcohol usage") + guides(fill=guide_legend(title=""))
+```
 
+From the barplot above we can also see, that high alcohol use and sex are somehow connected
+
+
+
+```{r, echo=FALSE}
 # initialize a plot of high_use and G3
 g1 <- ggplot(alc, aes(x = high_use, y = G3, col=sex))
 
 # define the plot as a boxplot and draw it
-g1 + geom_boxplot() + ylab("Final grade")
+g1 + geom_boxplot() + ylab("Final grade") + xlab("High alcohol usage") + ggtitle("High alcohol usage, final grade and sex")
 #g1 <- ggplot(alc, aes(x = high_use, y = G3, col=sex))
 #g1 + geom_boxplot() + ylab("grade")
 # initialise a plot of high_use and absences
@@ -84,38 +91,47 @@ g1 + geom_boxplot() + ylab("Final grade")
 #g2
 # define the plot as a boxplot and draw it
 #g2 + ggtitle("Student absences by alcohol consumption and sex")
+```
 
+The boxplots above indicates that high use of alcohol has a more negative effect on the final grades of males than the final grades of females. The final grade mean of heavy drinking men drops considerably when compared with heavy drinking women.
 
-ggplot(alc_orig, aes(x= factor(high_use), y=G3)) + geom_point() + facet_grid(. ~ sex) + stat_smooth(method="lm", col="red") + ggtitle("Final grade vs. high alcohol use") + ylab("Final grade") + xlab("High alcohol usage")
+```{r, echo=FALSE}
+ggplot(alc_orig, aes(x= factor(high_use), y=G3)) + geom_point() + facet_grid(. ~ sex) + stat_smooth(method="lm", col="red") + ggtitle("High alcohol usage, final grade and sex") + ylab("Final grade") + xlab("High alcohol usage") 
 
-ggplot(alc_orig, aes(x= G3, y=factor(high_use))) + geom_point() + facet_grid(. ~ sex) + stat_smooth(method="lm", col="red") + ggtitle("Final grade vs. high alcohol use") 
+#ggplot(alc_orig, aes(x= G3, y=factor(high_use))) + geom_point() + facet_grid(. ~ sex) + #stat_smooth(method="lm", col="red") + ggtitle("Final grade vs. high alcohol use") 
 
 
 
 
 ```
 
+A different, point visualization of high alcohol usage, final grade and sex indicates the same (male alcohol usage affects more negatively the final grade than womens' alcohol usage)
 
-
-#### 4.2 **Internet use and High alchol use vs. Final grade**
+#### 4.3 **Summary statistics of internet at home, high alcohol usage and how these affect the final grade**
 Producing summary statistics by group
 ```{r, echo=FALSE}
 alc2 <- alc %>% group_by(internet, high_use) %>% summarise(count = n(), mean_grade= mean(G3))
 alc2
 ```
 
-**Visualization**
+The summary statistics above indicates that internet at home and low alcohol usage has a positive effect on the final grade.
+
+#### 4.4 Visualizations
 
 ```{r, echo=FALSE}
 
 ## From the barplot below we can see, that internet at home doesn't affect alcohol usage
-ggplot(alc_orig, aes(x= internet, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("Internet at home vs. high alcohol use") + ylab("The number of cases") + xlab("Internet at home")
+ggplot(alc_orig, aes(x= internet, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("Internet at home and high alcohol usage") + ylab("The number of cases") + xlab("Internet at home") + guides(fill=guide_legend(title="High usage of alcohol"))
+```
 
+It looks like internet at home has no statistically important effect on the use of alcohol.
+
+```{r, echo=FALSE}
 # initialize a plot of high_use and G3
 g1 <- ggplot(alc, aes(x = high_use, y = G3, col=internet))
 
 # define the plot as a boxplot and draw it
-g1 + geom_boxplot() + ylab("Final grade") + xlab("High alcohol usage")
+g1 + geom_boxplot() + ylab("Final grade") + xlab("High alcohol usage") + ggtitle("Final grade, high alcohol usage and internet at home") + guides(fill=guide_legend(title="Internet at home"))
 #g1 <- ggplot(alc, aes(x = high_use, y = G3, col=sex))
 #g1 + geom_boxplot() + ylab("grade")
 # initialise a plot of high_use and absences
@@ -126,20 +142,28 @@ g1 + geom_boxplot() + ylab("Final grade") + xlab("High alcohol usage")
 #g2 + ggtitle("Student absences by alcohol consumption and sex")
 ```
 
-#### 4.3 **Study time and High alchol use vs. Final grade**
+Low alcohol usage and internet at home seems to have some positive effect on the final grade for females.
+
+
+#### 4.5 **Summary statistics of studytime, high alcohol use and how these affect the mean of the final grade**
 Producing summary statistics by group
 ```{r, echo=FALSE}
 alc3 <- alc %>% group_by(studytime, high_use) %>% summarise(count = n(), mean_grade= mean(G3))
 alc3
 ```
-**Visualization**
 
-The barplot below indicates that higher studytimes use means lower alcohol usage.
+The above summary statistics revealed something quite surprising. The combination of long study time and high alchohol usage seems to produce better final grades than other combinations.
+
+#### 4.6 Visualizations
+
+
 
 ```{r, echo=FALSE}
 ## From the barplot below we can see, that internet at home doesn't affect alcohol usage
-ggplot(alc_orig, aes(x= studytime, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("Studytime vs. high alcohol use") + xlab("Studytime") + ylab("The number of cases")
+ggplot(alc_orig, aes(x= studytime, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("Studytime vs. high alcohol use") + xlab("Studytime") + ylab("The number of cases") + guides(fill=guide_legend(title="High usage of alcohol"))
 ```
+
+The barplot above indicates that  for women the highest studytime and for men the second highest studytime means the proprotionally lowest alcohol usage (in relation to high usage).
 
 ```{r, echo=FALSE}
 
@@ -150,6 +174,14 @@ ggplot(alc_orig, aes(x= studytime, fill=high_use)) + geom_bar() + facet_grid(. ~
 Next we'll use glm() to *fit a logistic regression model* with high_use as the target variable and sex, internet, studytime and the final grade (G3) as the predictors. Then we'll print out **the summary of the model** and finally **the coefficients of the model**.
 
 *The summary of the model*
+
+The fitted logistic regression model below shows the following.
+
+* The estimate indicates that male sex has a considerable positive correlation with high alcohol usage and so predicts alcohol usage
+* Final grade and alcohol usage have minimal correlation
+* Internet at home has a slight positive correlation with alcohol usage
+* Studytime has a noticeable negative correlation with alcohol usage
+
 ```{r, echo=FALSE, message= FALSE}
 # find the model with glm()
 m <- glm(high_use ~ sex + internet + studytime + G3, data = alc, family = "binomial")
@@ -170,6 +202,17 @@ Let's print out the odd ratios binded together with their confidence intervals!
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 cbind(OR, CI)
 ```
+From these confidence intervals we can conclude the following.
+
+* The connection between male sex and high alcohol usage has the widest confidence interval (at 97,5 %) and so the estimate is the least accurate
+* The estimates indicating studytime's and final grade's relation to high alcohol usage have the tightest confidence intervals and so their estimates are the most accurate
+* The accuracy of the estimate of the relation between internet at home and alcohol confidence interval is slightly smaller than the male sex : alcohol usage confidence interval
+
+The reasons why the confidence interval indicating the accuracy of the sex : alcohol usage -estimate is the widest could include the following:
+
+* The students might not want to tell the truth about their alcohol usage in the survey
+* Alcohol usage might vary periodically
+
 ### 6. Exploring the predictive power of the model
 Of my chosen variables, sex and studytime had a statistical relationship with low/high alcohol consumption. Next we'll explore the predictive power of the created model using these variables.
 ```{r, echo=FALSE}
