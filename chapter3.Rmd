@@ -1,0 +1,63 @@
+---
+title: "Chapter 3 - The Student Alcohol Consumption Dataset - Visualization and Analysis"
+author: "Gyan Dookie"
+date: "10 February 2017"
+output: html_document
+---
+
+## Chapter 3 - The Student Alcohol Consumption Dataset - Visualization and Analysis
+
+
+### 1. Read the data into R
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+### Install the packages which are needed
+### install.packages("ggplot2")
+library(ggplot2)
+
+### install.packages("GGally")
+library(GGally)
+```
+
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+### Load in the dplyr library that has many usefule functions for data wrangling
+library(dplyr)
+```
+
+Here we read the joined student alcohol consumption data into R ( *Remember that the path to the .csv file must be relative in order for it to work on the remote server!*).
+```{r, echo=TRUE, results='hide'}
+
+alc <- read.table("data/alc_mod.csv", header= TRUE, sep=",")
+
+```
+### 2. Preliminary explorations of the data
+The combined dataset's 35 variables are shown below and it has altogether 382 observations (rows)
+```{r, echo=FALSE}
+colnames(alc)
+dim(alc)
+### str(alc)
+```
+The data includes the following variable datatypes: factorial, integer, numeric and logical.
+I used the pipe symbol to provide the output of the head()-function (prints out the observations according to the given second parameter) to the str()-function that shows the structure of the data.
+```{r, echo=TRUE}
+head(alc, 0) %>% str()
+```
+### 3. My personal hypothesis of the relationships between high/low alcohol usage and 4 other variables
+Next I'm gonna present my hypothesis of the relationships between high/low alcohol use and four other variables I chose from the data: sex, study time, internet use and the final grade for the course
+
+* **Sex vs. high/low alcohol use**
+    * I believe that the male gender uses more alcohol than the female gender. I base this assumption on cultural aspects. The survey was conducted in Portugal where the gender roles are, I assume, more traditional and conservative than in Finland. I think (in Portugal) there's more social pressure towards women to "behave" and not be shown drunk in the public than towars men.
+    
+* **Study time vs. high/low alcohol use**
+    * My hypothesis here is based on a simple assumption. The more you use alcohol, the more you are doing something else than studying (i.e. hanging out in hte bar with your friends). And let's face it, if you are drunk, it is quite difficult to study. 
+    
+* **Internet use vs. high/low alcohol use**
+    * This relationship is not so easy to hypothesize. I just assumed above that when you're using alcohol, you are likely to hang out with your friends. It would be also difficult to concentrate on cognitively challenging tasks. But I think mobile internet usage is a game changer here. Many younger people nowadays use internet all the time through the mobile devices (e.g. when hanging out with their friends). There's also a psychological point that could affect this relationship. I think that both high alcohol use and high internet use is a sign that the person oriented towards crossing the borders and exploring the unknown. So my hypothesis is that there is a postitive correlation between high internet use and high alcohol consumption.
+    
+* **Final course grade vs. high alcohol consumption**
+      * Moderate alcohol use usually predicts longer life than no alcohol use, so there's some connection, I guess,  between the former and cognitive stamina. Nevertheless my hypothesis here is that high alcohol consumption results in lower final course grades. If you drink too much you will likely have more school absences and you will not be able to concentrate on cognitively challenging things.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
