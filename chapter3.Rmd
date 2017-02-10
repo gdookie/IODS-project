@@ -46,17 +46,146 @@ head(alc, 0) %>% str()
 Next I'm gonna present my hypothesis of the relationships between high/low alcohol use and four other variables I chose from the data: sex, study time, internet use and the final grade for the course
 
 * **Sex vs. high/low alcohol use**
-    * I believe that the male gender uses more alcohol than the female gender. I base this assumption on cultural aspects. The survey was conducted in Portugal where the gender roles are, I assume, more traditional and conservative than in Finland. I think (in Portugal) there's more social pressure towards women to "behave" and not be shown drunk in the public than towars men.
+    * I believe that the male gender uses more alcohol than the female gender. I base this assumption on cultural aspects. The survey was conducted in Portugal where the gender roles are, I assume, more traditional and conservative than in Finland. I think (in Portugal) there's more social pressure towards women to "behave" and not be shown drunk in the public than towars men. My hypothesis is that here is a strong positive correlation between the male gender and high alcohol use.
     
 * **Study time vs. high/low alcohol use**
-    * My hypothesis here is based on a simple assumption. The more you use alcohol, the more you are doing something else than studying (i.e. hanging out in hte bar with your friends). And let's face it, if you are drunk, it is quite difficult to study. 
+    * My hypothesis here is based on a simple assumption. The more you use alcohol, the more you are doing something else than studying (i.e. hanging out in the bar with your friends). And let's face it, if you are drunk, it is quite difficult to study. That said, my hypothesis is that study time is negatively correlated to high alcohol use.
     
 * **Internet use vs. high/low alcohol use**
-    * This relationship is not so easy to hypothesize. I just assumed above that when you're using alcohol, you are likely to hang out with your friends. It would be also difficult to concentrate on cognitively challenging tasks. But I think mobile internet usage is a game changer here. Many younger people nowadays use internet all the time through the mobile devices (e.g. when hanging out with their friends). There's also a psychological point that could affect this relationship. I think that both high alcohol use and high internet use is a sign that the person oriented towards crossing the borders and exploring the unknown. So my hypothesis is that there is a postitive correlation between high internet use and high alcohol consumption.
+    * This relationship is not so easy to hypothesize. I just assumed above that when you're using alcohol, you are likely to hang out with your friends. It would be also difficult to concentrate on cognitively challenging tasks. The mobile internet usage could be a game changer here, because many younger people nowadays use internet all the time through the mobile devices (e.g. when hanging out with their friends). Nevertheless, the survey's factorial internet variable means the internet at home. That being the case, internet connection only at home might reduce hanging out and so the use of alcohol. There's also a psychological point that could affect this relationship. High alcohol use and high internet use might be a sign that the person is oriented towards crossing virtual, technological, social and psychological "borders"" and exploring the unknown. The former (you don't hangout because your at home using your internet connection) and the latter (heavy internet and alcohol users have the same kind of "crossing borders" mindset) seem to cancel each other out. So my hypothesis is that there is a close to zero correlation between high internet use and high alcohol consumption.
     
 * **Final course grade vs. high alcohol consumption**
-      * Moderate alcohol use usually predicts longer life than no alcohol use, so there's some connection, I guess,  between the former and cognitive stamina. Nevertheless my hypothesis here is that high alcohol consumption results in lower final course grades. If you drink too much you will likely have more school absences and you will not be able to concentrate on cognitively challenging things.
+      * Moderate alcohol use usually predicts longer life than no alcohol use, so there's some connection, I guess,  between the former and cognitive stamina. Nevertheless my hypothesis here is that high alcohol consumption results in lower final course grades. If you drink too much you will likely have more school absences and you will not be able to concentrate on cognitively challenging things. The correlation here would be negative and statistically significant
+      
+### 4. Exploring the distributions of my chosen variables numerically and graphically
+#### 4.1 **Sex and High alchol use vs. Final grade**
+Producing summary statistics by group
+```{r, echo=FALSE}
+alc1 <- alc %>% group_by(sex, high_use) %>% summarise(count = n(), mean_grade= mean(G3))
+alc1
+```
 
+Drawing box plots
+
+```{r, echo=FALSE}
+# initialize a plot of high_use and G3
+g1 <- ggplot(alc, aes(x = high_use, y = G3, col=sex))
+
+# define the plot as a boxplot and draw it
+g1 + geom_boxplot() + ylab("Final grade")
+#g1 <- ggplot(alc, aes(x = high_use, y = G3, col=sex))
+#g1 + geom_boxplot() + ylab("grade")
+# initialise a plot of high_use and absences
+#g2 <- ggplot(alc, aes(x = high_use, y = absences, col=sex)) 
+#g2 <- g2 + geom_boxplot() + ylab("absences")
+#g2
+# define the plot as a boxplot and draw it
+#g2 + ggtitle("Student absences by alcohol consumption and sex")
+```
+
+
+#### 4.2 **Internet use and High alchol use vs. Final grade**
+Producing summary statistics by group
+```{r, echo=FALSE}
+alc2 <- alc %>% group_by(internet, high_use) %>% summarise(count = n(), mean_grade= mean(G3))
+alc2
+```
+
+Drawing box plots
+
+```{r, echo=FALSE}
+# initialize a plot of high_use and G3
+g1 <- ggplot(alc, aes(x = high_use, y = G3, col=internet))
+
+# define the plot as a boxplot and draw it
+g1 + geom_boxplot() + ylab("Final grade")
+#g1 <- ggplot(alc, aes(x = high_use, y = G3, col=sex))
+#g1 + geom_boxplot() + ylab("grade")
+# initialise a plot of high_use and absences
+#g2 <- ggplot(alc, aes(x = high_use, y = absences, col=sex)) 
+#g2 <- g2 + geom_boxplot() + ylab("absences")
+#g2
+# define the plot as a boxplot and draw it
+#g2 + ggtitle("Student absences by alcohol consumption and sex")
+```
+
+#### 4.3 **Study time and High alchol use vs. Final grade**
+Producing summary statistics by group
+```{r, echo=FALSE}
+alc3 <- alc %>% group_by(studytime, high_use) %>% summarise(count = n(), mean_grade= mean(G3))
+alc3
+```
+Drawing box plots
+```{r, echo=FALSE}
+# initialize a plot of high_use and G3
+g1 <- ggplot(alc, aes(x = factor(high_use), col=G3 ))
+
+# define the plot as a boxplot and draw it
+g1 + geom_bar()
+#g1 <- ggplot(alc, aes(x = high_use, y = G3, col=sex))
+#g1 + geom_boxplot() + ylab("grade")
+# initialise a plot of high_use and absences
+#g2 <- ggplot(alc, aes(x = high_use, y = absences, col=sex)) 
+#g2 <- g2 + geom_boxplot() + ylab("absences")
+#g2
+# define the plot as a boxplot and draw it
+#g2 + ggtitle("Student absences by alcohol consumption and sex")
+```
+
+### 5. Exploring the relationship between my chosen variables and the binary high/low alcohol consumption variable with logistic regression
+#### 5.1 The summary and the coefficients of the model
+Next we'll use glm() to *fit a logistic regression model* with high_use as the target variable and sex, internet, studytime and the final grade (G3) as the predictors. Then we'll print out **the summary of the model** and finally **the coefficients of the model**.
+
+*The summary of the model*
+```{r, echo=FALSE, message= FALSE}
+# find the model with glm()
+m <- glm(high_use ~ sex + internet + studytime + G3, data = alc, family = "binomial")
+summary(m)
+```
+*The coefficients of the model*
+```{r, echo=FALSE}
+coef(m)
+```
+#### 5.2 Computing the odd ratios of the coefficients and providing the confidence intervals for them
+The computational target variable in the logistic regression model is the log of odds. That is why the exponents of the coefficients of a logistic regression model can be interpret as odds ratios between a unit change (vs no change) in the corresponding explanatory variable.
+```{r, echo=FALSE}
+OR <- coef(m) %>% exp
+OR
+CI <- confint(m)%>% exp
+```
+Let's print out the odd ratios binded together with their confidence intervals!
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+cbind(OR, CI)
+```
+### 6. Exploring the predictive power of the model
+Of my chosen variables, sex and studytime had a statistical relationship with low/high alcohol consumption. Next we'll explore the predictive power of the created model using these variables.
+```{r, echo=FALSE}
+# fit the model
+m2 <- glm(high_use ~ sex+ studytime, data = alc, family = "binomial")
+# predict() the probability of high_use
+probabilities <- predict(m2, type = "response")
+# add the predicted probabilities to 'alc'
+alc <- mutate(alc, probability = probabilities)
+# use the probabilities to make a prediction of high_use
+alc <- mutate(alc, prediction = probability>0.5)
+# tabulate the target variable versus the predictions
+table(high_use = alc$high_use, prediction = alc$prediction)
+dim(alc)
+pratio <- (268*100/382)
+pratio
+#alc
+
+# initialize a plot of 'high_use' versus 'probability' in 'alc'
+#g <- ggplot(alc, aes(x = probability, y = high_use, col=prediction))
+
+# define the geom as points and draw the plot
+#g + geom_point()
+# tabulate the target variable versus the predictions
+table(high_use = alc$high_use, prediction = alc$prediction) %>% prop.table()%>%addmargins() 
+```
+**Conclusions**
+
+* The model predicted the target variable with a 70 % strength / 0.7 probability, which is an ok, but not an excellent result
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
