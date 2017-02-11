@@ -5,8 +5,9 @@ date: "10 February 2017"
 output: html_document
 ---
 
-## Chapter 3 - The Student Alcohol Consumption Dataset - Visualization and Analysis
+## Chapter 3 - The Student Alcohol Consumption Dataset - Tabulation, visualization and Analysis
 
+##### In this exercise I’ll be using the *Data Mining To Predict Secondary School Student Alcohol Consumption* -data that was created by Fabio Pagnotta, Hossain Mohammad Amran (Department of Computer Science,University of Camerino) in 2008. The data contains two identical questionnaires related to secondary school students’ alcohol consumption in Portugal. The two surveyed groups were 1) the students of Math course (Gabriel Pereira school) and 2) the students of the Portuguese language course (Mousinho da Silveira school).
 
 ### 1. Read the data into R
 
@@ -58,7 +59,7 @@ Next I'm gonna present my hypothesis of the relationships between high/low alcoh
       * Moderate alcohol use usually predicts longer life than no alcohol use, so there's some connection, I guess,  between the former and cognitive stamina. Nevertheless my hypothesis here is that high alcohol consumption results in lower final course grades. If you drink too much you will likely have more school absences and you will not be able to concentrate on cognitively challenging things. The correlation here would be negative and statistically significant
       
 ### 4. Exploring the distributions of my chosen variables numerically and graphically
-#### 4.1 **Summary statistics of sex, high alcohol use and how these affect the mean of the final grade** 
+#### **4.1 Summary statistics of sex, high alcohol use and how these affect the mean of the final grade** 
 (Tämä pois**Sex and High alchol use vs. Final grade**)
 
 ```{r, echo=FALSE}
@@ -67,7 +68,7 @@ alc1
 ```
 This summary indicates that high alcohol use affects more the mean final grade of males than the mean final grade of females.
 
-#### 4.2 Visualizations
+#### **4.2 Visualizations**
 
 ```{r, echo=FALSE}
 ggplot(alc_orig, aes(x= high_use, fill=high_use)) + geom_bar() + facet_grid(. ~ sex) + ggtitle("High alcohol usage and sex") + ylab("The number of cases") + xlab("High alcohol usage") + guides(fill=guide_legend(title=""))
@@ -107,7 +108,7 @@ ggplot(alc_orig, aes(x= factor(high_use), y=G3)) + geom_point() + facet_grid(. ~
 
 A different, point visualization of high alcohol usage, final grade and sex indicates the same (male alcohol usage affects more negatively the final grade than womens' alcohol usage)
 
-#### 4.3 **Summary statistics of internet at home, high alcohol usage and how these affect the final grade**
+#### **4.3 Summary statistics of internet at home, high alcohol usage and how these affect the final grade**
 Producing summary statistics by group
 ```{r, echo=FALSE}
 alc2 <- alc %>% group_by(internet, high_use) %>% summarise(count = n(), mean_grade= mean(G3))
@@ -116,7 +117,7 @@ alc2
 
 The summary statistics above indicates that internet at home and low alcohol usage has a positive effect on the final grade.
 
-#### 4.4 Visualizations
+#### **4.4 Visualizations**
 
 ```{r, echo=FALSE}
 
@@ -145,7 +146,7 @@ g1 + geom_boxplot() + ylab("Final grade") + xlab("High alcohol usage") + ggtitle
 Low alcohol usage and internet at home seems to have some positive effect on the final grade for females.
 
 
-#### 4.5 **Summary statistics of studytime, high alcohol use and how these affect the mean of the final grade**
+#### **4.5 Summary statistics of studytime, high alcohol use and how these affect the mean of the final grade**
 Producing summary statistics by group
 ```{r, echo=FALSE}
 alc3 <- alc %>% group_by(studytime, high_use) %>% summarise(count = n(), mean_grade= mean(G3))
@@ -154,7 +155,7 @@ alc3
 
 The above summary statistics revealed something quite surprising. The combination of long study time and high alchohol usage seems to produce better final grades than other combinations.
 
-#### 4.6 Visualizations
+#### **4.6 Visualizations**
 
 
 
@@ -170,7 +171,7 @@ The barplot above indicates that  for women the highest studytime and for men th
 ```
 
 ### 5. Exploring the relationship between my chosen variables and the binary high/low alcohol consumption variable with logistic regression
-#### 5.1 The summary and the coefficients of the model
+#### **5.1 The summary and the coefficients of the model**
 Next we'll use glm() to *fit a logistic regression model* with high_use as the target variable and sex, internet, studytime and the final grade (G3) as the predictors. Then we'll print out **the summary of the model** and finally **the coefficients of the model**.
 
 *The summary of the model*
@@ -191,7 +192,7 @@ summary(m)
 ```{r, echo=FALSE}
 coef(m)
 ```
-#### 5.2 Computing the odd ratios of the coefficients and providing the confidence intervals for them
+#### **5.2 Computing the odd ratios of the coefficients and providing the confidence intervals for them**
 The computational target variable in the logistic regression model is the log of odds. That is why the exponents of the coefficients of a logistic regression model can be interpret as odds ratios between a unit change (vs no change) in the corresponding explanatory variable.
 ```{r, echo=FALSE}
 OR <- coef(m) %>% exp
