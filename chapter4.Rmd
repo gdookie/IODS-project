@@ -260,7 +260,14 @@ lda.pred <- predict(lda.fit, newdata = test)
 table(correct = correct_classes, predicted = lda.pred$class)
 
 ```
+The prediction of the classes with the LDA model ended with following results which are in the order for the succes of the prediction
 
+* The model predicted the high values quite accurately (the correct was 24 high, 3 moderately high)
+* The prediction of the the rest of the crime categories wasn't as accurate as the prediction of the high category.
+    * The prediction of the low category  (the correct was 16 low, 7 medium low and 1 medium high) and the medium high category (the correct was 14 medium high, 2 medium low, 3 low and 1 high) was moderately good
+    * The medium low category was the least accurate (the correct was medium low 15,low 9 and medium high 7)
+    
+  All and all it can be summarized that the LDA model predicted the classes moderately well.
 
 <!-- Reload the Boston dataset and standardize the dataset (we did not do this in the Datacamp exercises, but you should scale the variables to get comparable distances). Calculate the distances between the observations. Run k-means algorithm on the dataset. Investigate what is the optimal number of clusters and run the algorithm again. Visualize the clusters (for example with the pairs() or ggpairs() functions, where the clusters are separated with colors) and interpret the results. (4 points) -->
 
