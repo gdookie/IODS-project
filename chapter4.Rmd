@@ -61,6 +61,9 @@ B1 <- Boston
 ## Next we'll print out the summary
 summary(Boston)
 
+#group_by(set) %>%
+ # summarize(N = n(), Mx= mean(x),Sdx= sd(x), My=mean(y), Sdy=sd(y), cor(x,y))
+
 
 ```
 
@@ -98,6 +101,27 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
 ```
 <!-- Standardize the dataset and print out summaries of the scaled data. How did the variables change? Create a categorical variable of the crime rate in the Boston dataset (from the scaled crime rate). Use the quantiles as the break points in the categorical variable. Drop the old crime rate variable from the dataset. Divide the dataset to train and test sets, so that 80% of the data belongs to the train set. (2 points) -->
 
+The above summaries and visualizations showed the following.
+
+* There was a mildly strong positive correlation between crime and index of accessibility to radial highways (rad).
+* There was a moderate positive correlation between crime and the following variables.
+    * nitrogen oxides concentration (parts per 10 million) (nox)
+    * proportion of non-retail business acres per town (indus)
+    * lower status of the population (percent) (lstat)
+    * full-value property-tax rate per \$10,000 (tax)
+* No variable had a very strong negative correlation with crime.
+* The following had a moderate negative correlation with crime.
+      * weighted mean of distances to five Boston employment centres (dis)
+      * 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town (black)
+      * median value of owner-occupied homes in \$1000s (medv)
+* Some relationships between the other variables
+    * There was a quite strong to strong correlation between the following pairs: 1) rad:tax, indus:nox:rm (average number of rooms per dwelling)
+    * There was a quite strong negative correlation between the following pairs: 1) indus:dis, 2) nox:dis, 3) age: dis and lstat:medv
+    
+      
+  The moderate negative correlation between crime and the black population was a small surprise because the media usually depicts these two as having a strong correlational and even causational relationship.
+    
+
 ### 3. Standardizing / scaling the data and dividing the data to train and test sets
 
 ##### **3.1 Scaling and standardizing**
@@ -109,15 +133,23 @@ boston_scaled <- scale(Boston)
 
 ```
 
-Let's look at the summaries of the scaled variables and see how the variables changed ( e.g. the means.
+Let's look at the summaries of the scaled variables and see how the variables changed ( e.g. the means are now all at zero)
 
 ```{r, echo=FALSE}
 summary(boston_scaled)
+#sd(boston_scaled)
 ```
 
-Here we'll create a categorical dataset of the crime rate variable in the scaled Boston dataset using quantiles as the break points in the categorical variable.
+* The following variables have a considerably smaller median than mean value. This indicates towards an outlier(s) on the positive side that(which) affect(s) the mean (which in this case shouldn't be whole heartedly trusted)
+    * crim, zn, rad, tax
+* The following variables have a slightly bigger median than mean value. This indicates towards an outlier(s) on the negative side that(which) affect(s) the mean (which in this case shouldn't be whole heartedly trusted)
+    * age, black
+    
 
-```{r}
+
+Next we'll create a categorical dataset of the crime rate variable in the scaled Boston dataset using quantiles as the break points in the categorical variable.
+
+```{r, message= FALSE}
 # class of the boston_scaled object
 class(boston_scaled)
 # save the scaled crim as scaled_crim
@@ -132,6 +164,12 @@ Let's take a look at the summary of the scaled crim variable and then create a q
 ```{r}
 
 summary(scaled_crim)
+
+```
+
+The scaled crime variable has the largest range compared with other scaled variables (from -0.419400 to 9.924000). The median is considerably lower than the mean. This indicates that there are few observations that have a much higher positive crime value than the majority of observations.
+
+```{r}
 bins <- quantile(scaled_crim)
 
 range <- c("low","med_low","med_high","high")
