@@ -1,0 +1,55 @@
+---
+title: "Chapter 4 - Clustering and Classification"
+author: "Gyan Dookie"
+date: "12 February 2017"
+output: html_document
+---
+```{r, echo=FALSE, message=FALSE}
+#Load the Boston data from the MASS package
+# 1. install the MASS package with install()
+# Knitr produces a R session, without a default cran mirror unless you specifically asked for one. We tend to forget we need to set up CRAN for every R session when we use Rstudio because it takes care of it, but only for interactive use, not for knitr.
+#You could try specifying a mirror as a install.packages argument
+# ctrl+shif+c --> comment a block out
+
+install.packages("MASS", repos= "http://cran.us.r-project.org")
+# 2. Load the Boston data with library()
+library("MASS")
+
+
+#math <- read.table("/Users/gyandookie/IODS-project/data/student-mat.csv",sep=";", header=TRUE)
+```
+#Chapter 4 - The clustering and classification of the Housing values in the Suburbs of Boston -dataframe
+##### The Boston dataframe that belongs to the MASS-package deals with housing values in suburbs of Boston. It's variables (altogether 14) cover mainly things that could affect housing values.
+
+Below is the structure of the *Housing Values in Suburbs of Boston*. The following characteristics of the dataframe can be discerned.
+
+* 14 variables
+    * Datatypes: numeric and integer
+* 506 rows
+* 
+```{r, echo=FALSE}
+dim(Boston)
+str(Boston)
+
+```
+<!--Show a graphical overview of the data (GD:how many variables / plot?) and show summaries of the variables in the data (GD: kertaa summary()-funktion toimita). Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them.-->
+```{r, echo=FALSE}
+
+```
+<!-- Standardize the dataset and print out summaries of the scaled data. How did the variables change? Create a categorical variable of the crime rate in the Boston dataset (from the scaled crime rate). Use the quantiles as the break points in the categorical variable. Drop the old crime rate variable from the dataset. Divide the dataset to train and test sets, so that 80% of the data belongs to the train set. (2 points) -->
+```{r, echo=FALSE}
+
+```
+<!-- Fit the linear discriminant analysis on the train set. Use the categorical crime rate as the target variable and all the other variables in the dataset as predictor variables. Draw the LDA (bi)plot. (3 points) -->
+
+```{r, echo=FALSE}
+
+```
+<!-- Reload the Boston dataset and standardize the dataset (we did not do this in the Datacamp exercises, but you should scale the variables to get comparable distances). Calculate the distances between the observations. Run k-means algorithm on the dataset. Investigate what is the optimal number of clusters and run the algorithm again. Visualize the clusters (for example with the pairs() or ggpairs() functions, where the clusters are separated with colors) and interpret the results. (4 points) -->
+
+```{r, echo=FALSE}
+```
+<!-- 
+Save the crime categories from the test set and then remove the categorical crime variable from the test dataset (GD: mutate()?). Then predict the classes with the LDA model on the test data. Cross tabulate the results with the crime categories from the test set. Comment on the results. (3 points)
+-->
+

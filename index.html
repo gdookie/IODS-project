@@ -150,6 +150,7 @@ $(document).ready(function () {
 <li><a href="#summarizing-the-fitted-model-and-interpreting-the-model-parameters">4. Summarizing the Fitted Model and Interpreting the Model Parameters</a></li>
 <li><a href="#chapter-3---the-student-alcohol-consumption-dataset---tabulation-visualization-and-analysis">Chapter 3 - The Student Alcohol Consumption Dataset - Tabulation, visualization and Analysis</a></li>
 </ul></li>
+<li><a href="#chapter-4---the-clustering-and-classification-of-the-housing-values-in-the-suburbs-of-boston--dataframe">Chapter 4 - The clustering and classification of the Housing values in the Suburbs of Boston -dataframe</a></li>
 </ul>
 </div>
 
@@ -548,7 +549,49 @@ alc_orig &lt;- alc</code></pre>
 <ul>
 <li>The model predicted the target variable with a 70 % strength / 0.7 probability, which is an ok, but not an excellent result</li>
 </ul>
+<hr />
+<pre><code>## 
+## The downloaded binary packages are in
+##  /var/folders/3l/ctwgxx5x36gb4c22gzjmvp9m0000gn/T//Rtmpw3U0zT/downloaded_packages</code></pre>
 </div>
+</div>
+</div>
+<div id="chapter-4---the-clustering-and-classification-of-the-housing-values-in-the-suburbs-of-boston--dataframe" class="section level1">
+<h1>Chapter 4 - The clustering and classification of the Housing values in the Suburbs of Boston -dataframe</h1>
+<div id="the-boston-dataframe-that-belongs-to-the-mass-package-deals-with-housing-values-in-suburbs-of-boston.-its-variables-altogether-14-cover-mainly-things-that-could-affect-housing-values." class="section level5">
+<h5>The Boston dataframe that belongs to the MASS-package deals with housing values in suburbs of Boston. It’s variables (altogether 14) cover mainly things that could affect housing values.</h5>
+<p>Below is the structure of the <em>Housing Values in Suburbs of Boston</em>. The following characteristics of the dataframe can be discerned.</p>
+<ul>
+<li>14 variables
+<ul>
+<li>Datatypes: numeric and integer</li>
+</ul></li>
+<li>506 rows</li>
+<li></li>
+</ul>
+<pre><code>## [1] 506  14</code></pre>
+<pre><code>## 'data.frame':    506 obs. of  14 variables:
+##  $ crim   : num  0.00632 0.02731 0.02729 0.03237 0.06905 ...
+##  $ zn     : num  18 0 0 0 0 0 12.5 12.5 12.5 12.5 ...
+##  $ indus  : num  2.31 7.07 7.07 2.18 2.18 2.18 7.87 7.87 7.87 7.87 ...
+##  $ chas   : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ nox    : num  0.538 0.469 0.469 0.458 0.458 0.458 0.524 0.524 0.524 0.524 ...
+##  $ rm     : num  6.58 6.42 7.18 7 7.15 ...
+##  $ age    : num  65.2 78.9 61.1 45.8 54.2 58.7 66.6 96.1 100 85.9 ...
+##  $ dis    : num  4.09 4.97 4.97 6.06 6.06 ...
+##  $ rad    : int  1 2 2 3 3 3 5 5 5 5 ...
+##  $ tax    : num  296 242 242 222 222 222 311 311 311 311 ...
+##  $ ptratio: num  15.3 17.8 17.8 18.7 18.7 18.7 15.2 15.2 15.2 15.2 ...
+##  $ black  : num  397 397 393 395 397 ...
+##  $ lstat  : num  4.98 9.14 4.03 2.94 5.33 ...
+##  $ medv   : num  24 21.6 34.7 33.4 36.2 28.7 22.9 27.1 16.5 18.9 ...</code></pre>
+<!--Show a graphical overview of the data (GD:how many variables / plot?) and show summaries of the variables in the data (GD: kertaa summary()-funktion toimita). Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them.-->
+<!-- Standardize the dataset and print out summaries of the scaled data. How did the variables change? Create a categorical variable of the crime rate in the Boston dataset (from the scaled crime rate). Use the quantiles as the break points in the categorical variable. Drop the old crime rate variable from the dataset. Divide the dataset to train and test sets, so that 80% of the data belongs to the train set. (2 points) -->
+<!-- Fit the linear discriminant analysis on the train set. Use the categorical crime rate as the target variable and all the other variables in the dataset as predictor variables. Draw the LDA (bi)plot. (3 points) -->
+<!-- Reload the Boston dataset and standardize the dataset (we did not do this in the Datacamp exercises, but you should scale the variables to get comparable distances). Calculate the distances between the observations. Run k-means algorithm on the dataset. Investigate what is the optimal number of clusters and run the algorithm again. Visualize the clusters (for example with the pairs() or ggpairs() functions, where the clusters are separated with colors) and interpret the results. (4 points) -->
+<!-- 
+Save the crime categories from the test set and then remove the categorical crime variable from the test dataset (GD: mutate()?). Then predict the classes with the LDA model on the test data. Cross tabulate the results with the crime categories from the test set. Comment on the results. (3 points)
+-->
 </div>
 </div>
 
