@@ -1,7 +1,7 @@
 ---
 title: "Chapter 4 - Clustering and Classification"
 author: "Gyan Dookie"
-date: "12 February 2017"
+date: "17 February 2017"
 output: html_document
 ---
 ```{r, echo=FALSE, message=FALSE}
@@ -11,34 +11,159 @@ output: html_document
 #You could try specifying a mirror as a install.packages argument
 # ctrl+shif+c --> comment a block out
 
-install.packages("MASS", repos= "http://cran.us.r-project.org")
+#install.packages("MASS", repos= "http://cran.us.r-project.org")
+#install.packages("MASS", repos = "https://ftp.acc.umu.se/mirror/CRAN/")
+#install.packages("MASS")
+
+
+#install.packages("dplyr")
+#install.packages("corrplot")
+library(dplyr)
+library(corrplot)
 # 2. Load the Boston data with library()
-library("MASS")
+# The library function seems to work with and without the ""
+library(MASS)
 
+# I noticed, that you can use the Boston data without loading with data (if you loaded MASS with the library() function. Nevertheless, let's anyway use data as in the Datacamp exercise)
+data("Boston")
 
-#math <- read.table("/Users/gyandookie/IODS-project/data/student-mat.csv",sep=";", header=TRUE)
 ```
+
 #Chapter 4 - The clustering and classification of the Housing values in the Suburbs of Boston -dataframe
 ##### The Boston dataframe that belongs to the MASS-package deals with housing values in suburbs of Boston. It's variables (altogether 14) cover mainly things that could affect housing values.
+### 1. Loading the packages and libraries into R
+Install.packages() and load() were used to load the MASS package into R. Also the dplyr and corrplot packages, which are used in the exercise, were installed and loaded into R.
 
-Below is the structure of the *Housing Values in Suburbs of Boston*. The following characteristics of the dataframe can be discerned.
+### 2. Preliminary explorations of the data
+#### 2.1 The structure and the dimensions of the data
+Below is the structure of the Housing Values in Suburbs of Boston. The following characteristics of the dataframe can be discerned.
 
+* 506 rows
 * 14 variables
     * Datatypes: numeric and integer
-* 506 rows
-* 
+
+
+
+
 ```{r, echo=FALSE}
+
 dim(Boston)
 str(Boston)
 
 ```
 <!--Show a graphical overview of the data (GD:how many variables / plot?) and show summaries of the variables in the data (GD: kertaa summary()-funktion toimita). Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them.-->
+
+#### 2.2 The summary of the data
+Here we'll print out the summary of the data with the *summary()* function to get a grasp of the min, max, median, mean and quantiles of the data.
+
 ```{r, echo=FALSE}
+B1 <- Boston
+## Next we'll print out the summary
+summary(Boston)
+
+
+```
+
+#### 2.3 The graphical overview of the summarized data
+First we'll produce a matrix plot with the basic packages pairs.
+
+```{r, echo=FALSE}
+# Then we'll take a look at the graphical overview
+pairs(Boston)
+
+
+```
+
+#### 2.4 The correlations of the data with corrplot()
+
+Now it's time to get a picture of the correlations with the  *cor()* function. Here the correlations were rounded to two desimals to save space.
+
+```{r, echo=FALSE}
+
+cor_matrix<-cor(Boston)%>% round(2)
+cor_matrix
+
+
+```
+
+#### 2.5 The graphical overview of correlations with the advanced corrplot() function
+
+The visualization of the correlation matrix with the advanced *corrplot()* function. To reduce repetition, we'll visualize only the upper part of the plot (as is well known, the top part of the correlation matrix contains the same correlations as the bottom part)
+
+```{r, echo=FALSE}
+# Now we'll visualize the correlation matrix. To reduce repetition, we'll visualize only the upper part of the plot (as is well known, the top part of the correlation matrix contains the same correlations as the bottom part)
+corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl.cex=0.6)
+
 
 ```
 <!-- Standardize the dataset and print out summaries of the scaled data. How did the variables change? Create a categorical variable of the crime rate in the Boston dataset (from the scaled crime rate). Use the quantiles as the break points in the categorical variable. Drop the old crime rate variable from the dataset. Divide the dataset to train and test sets, so that 80% of the data belongs to the train set. (2 points) -->
-```{r, echo=FALSE}
 
+### 3. Standardizing / scaling the data and dividing the data to train and test sets
+
+##### 3.1 Scaling and standardizing
+Next we'll center and standardize the variables.
+
+```{r}
+
+boston_scaled <- scale(Boston)
+
+```
+
+Let's look at the summaries of the scaled variables and see how the variables changed ( e.g. the means.
+
+```{r, echo=FALSE}
+summary(boston_scaled)
+```
+
+Here we'll create a categorical dataset of the crime rate variable in the scaled Boston dataset using quantiles as the break points in the categorical variable.
+
+```{r}
+# class of the boston_scaled object
+class(boston_scaled)
+# save the scaled crim as scaled_crim
+# change the object to data frame
+boston_scaled <- as.data.frame(boston_scaled)
+class(boston_scaled)
+scaled_crim <- boston_scaled$crim
+```
+
+Let's take a look at the summary of the scaled crim variable and then create a quantile vector of it. After that we'll create a vector for the label names before cutting the scaled variable into bins.
+
+```{r}
+
+summary(scaled_crim)
+bins <- quantile(scaled_crim)
+
+range <- c("low","med_low","med_high","high")
+crime <- cut(scaled_crim, breaks = bins,label=range, include.lowest = TRUE)
+```
+
+Now we can remove the original crim variable from the scaled dataset and add the categorical value to the dataset.
+
+```{r}
+
+boston_scaled <- dplyr::select(boston_scaled, -crim)
+boston_scaled <- data.frame(boston_scaled, crime)
+table(crime)
+```
+
+Let's drop the old crime rate variable from the dataset
+We will want to use the boston_scaled (which is an object right now) as a data frame. So now we'll change the object to data frame with as.data.frame() function.
+
+```{r}
+
+# Here we'll divide the data in two parts: the train (80 %) and the test (20 %) sets
+# first we'll get the numbers of rows and save it for the next step
+n <- nrow(boston_scaled)
+# Then we'll choose randomly 80 % of the data and create a train set
+ind <- sample(n,  size = n * 0.8)
+train <- boston_scaled[ind,]
+# Creating a test set (i.e. choosing the  20 % data that was not chosen by the sample() function) is based on what we did before
+test <- boston_scaled[-ind,]
+# Now we'll save the classes from the test data and remove the crime variable from the test data
+# TARKISTA VIELÄ PITIKÖ NÄIN TEHDÄ
+correct_classes <- test$crime
+test <- dplyr::select(test, -crime)
 ```
 <!-- Fit the linear discriminant analysis on the train set. Use the categorical crime rate as the target variable and all the other variables in the dataset as predictor variables. Draw the LDA (bi)plot. (3 points) -->
 
