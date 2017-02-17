@@ -145,6 +145,16 @@ summary(boston_scaled)
 * The following variables have a slightly bigger median than mean value. This indicates towards an outlier(s) on the negative side that(which) affect(s) the mean (which in this case shouldn't be whole heartedly trusted)
     * age, black
     
+Here are the standard deviations of the variables.    
+```{r, echo=FALSE}
+# library(dplyr)
+# 
+#  boston_scaled %>%
+#   summarise(sd(crim),
+#             sd(zn), sd(indus), sd(chas), sd(nox), sd(rm), sd(age), sd(dis), sd(rad), sd(tax),sd(ptratio), sd(black), sd(lstat), sd(medv))
+```
+
+    
 
 
 Next we'll create a categorical dataset of the crime rate variable in the scaled Boston dataset using quantiles as the break points in the categorical variable.
@@ -239,6 +249,11 @@ plot(lda.fit, dimen = 2, col=classes, pch=classes)
 lda.arrows(lda.fit, myscale = 1.5)
 
 ```
+
+The biplotted LDA results shows the following.
+
+* The model separates well the high category from other categories and the high categories data points are also quite close to the center of the category's mean
+* The other categories' datapoints are more spread out and have noticable overlapping with other categories. The model doesn not cluster them as well as the high category.
 
 ### 5. Predicting the classes with the LDA model on the test data
 <!-- 
