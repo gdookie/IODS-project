@@ -225,3 +225,86 @@ table(correct = correct_classes, predicted = lda.pred$class)
 
 
 <!-- Reload the Boston dataset and standardize the dataset (we did not do this in the Datacamp exercises, but you should scale the variables to get comparable distances). Calculate the distances between the observations. Run k-means algorithm on the dataset. Investigate what is the optimal number of clusters and run the algorithm again. Visualize the clusters (for example with the pairs() or ggpairs() functions, where the clusters are separated with colors) and interpret the results. (4 points) -->
+
+### 6. Calculating the distances and visualizing the clusters
+
+##### 6.1 Calculate distances
+
+```{r,echo=FALSE}
+library(MASS)
+data("Boston")
+Boston <- scale(Boston)
+
+```
+
+After reloading the Boston data the next task is to calculate the distances among the datapoints with the dist() function (which will save the distances in a matrix table). Below we see the summaries and heads (the first 6 distances in the matrix) of two types of distances, 1) euclidian and 2) manhattan.
+
+*Euclidian distances*
+```{r, echo=FALSE}
+# euclidean distance matrix
+dist_eu <- dist(Boston)
+
+# look at the summary of the distances
+summary(dist_eu)
+head(dist_eu)
+```
+
+*Manhattan distances*
+```{r,echo=FALSE}
+# manhattan distance matrix
+dist_man <- dist(Boston, method="manhattan")
+
+# look at the summary of the distances
+summary(dist_man)
+head(dist_man)
+```
+
+##### **6.2 Plotting and finding out the optimal number of clusters with K-means and the within cluster sum of squares -method**
+Using K-means to produce the clusters and then the the result is plotted.
+
+```{r, echo=FALSE}
+library(ggplot2)
+#library(GGally)
+# k-means clustering
+km <-kmeans(dist_eu, centers = 4)
+
+# plot the Boston dataset with clusters
+pairs(Boston, col = km$cluster)
+
+#ggpairs(Boston, col =km$cluster)
+```
+
+The main goal is to find out what is the optimal number of clusters. This can be done by using different values for the kmeans' centers-argument. In practise trial and error might be a difficult path. By using the with in cluster sum of squares (WCSS) in combination with k-means and plotting the task becomes easier. The point where WCSS drops radically is the optimal number of clusters.
+
+```{r,echo=FALSE}
+### using set seed to produce the same random number everytime. This way the random result will be same and comparable each time
+set.seed(123)
+
+# euclidean distance matrix
+dist_eu <- dist(Boston)
+
+# determine the number of clusters
+k_max <- 10
+
+# calculate the total within sum of squares
+twcss <- sapply(1:k_max, function(k){kmeans(dist_eu, k)$tot.withinss})
+
+# visualize the results
+plot(1:k_max, twcss, type='b')
+
+# k-means clustering
+km <-kmeans(dist_eu, centers = 2)
+# visualize the results
+plot(1:k_max, twcss, type='b')
+```
+
+The dropping point of the WCSS visualization was 2, so below is the replotted matrix with clusters -visualization with the optimal number of clusters (2).
+
+```{r, echo=FALSE}
+
+# plot the Boston dataset with clusters
+pairs(Boston, col = km$cluster)
+
+```
+
+
