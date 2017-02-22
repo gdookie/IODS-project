@@ -1,6 +1,9 @@
 # Read the “Human development” and “Gender inequality” datas into R
 hd <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human_development.csv", stringsAsFactors = F)
 gii <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/gender_inequality.csv", stringsAsFactors = F, na.strings = "..")
+
+# library(stringr)
+library(stringr)
 # load dplyr
 library(dplyr)
 # library(plyr) I chose another why to change the variable names, so I don't need the plyr package
@@ -46,12 +49,58 @@ human <- inner_join(hd, gii, by = "Country")
 # Let's take a look at the new joined dataset to be sure everything is ok
 dim(human)
 glimpse(human)
+names(human)
+str(human)
+# Mutate the data: transform the Gross National Income (GNI) variable to numeric (Using string manipulation. Note that #the mutation of 'human' was not done on DataCamp).
 
+
+#human <- mutate(human, GNI = as.numeric(GNI))
+human$GNI<- str_replace(human$GNI, pattern=",", replace ="") %>% as.numeric() 
+
+
+str(human$GNI)
+str(human)
+
+# Exclude unneeded variables: keep only the columns matching the following variable names (described in the meta file above):  "Country", "Edu2.FM", "Labo.FM", "Edu.Exp", "Life.Exp", "GNI", "Mat.Mor", "Ado.Birth", "Parli.F"
+
+human <- dplyr::select(human, Country, EduSecondFemale, LabParticipFemale, EduExpYrs, LifeExpBirth, GNI,MatMortRat, AdolBirthRate, ParlPercRepres)
+
+names(human)
+str(human)
+complete.cases(human)
+
+#Remove all rows with missing values
+data.frame(human[-1], comp = complete.cases(human))
+human <- filter(human, complete.cases(human) != FALSE)
+
+#human
+
+#Remove the observations which relate to regions instead of countries. 
+last <- nrow(human) - 7
+last
+human <- human[1:last,]
+dim(human)
+
+# Define the row names of the data by the country names and remove the country name column from the data. The data should now have 155 observations and 8 variables (corrected 21.2.) . Save the human data in your data folder including the row names. You can overwrite your old ‘human’ data. (1 point)
+rownames(human) <- human$Country
+human
+
+
+# remove the Country variable
+human <- select(human, EduSecondFemale, LabParticipFemale, EduExpYrs, LifeExpBirth, GNI, MatMortRat, AdolBirthRate, ParlPercRepres)
+
+dim(human)
+names(human)
+str(human$GNI)
+glimpse(human)
 
 # Next we'll save the wrangled and modified data as a .csv file
+
 write.csv(human, "/Users/gyandookie/IODS-project/data/human.csv", row.names = FALSE)
+
 # Let's double check the saved file by loading it and printing some of it's contents back to the console
 # Important: the separator is a comma (",") as the file extension .csv implies 
+
 human <- read.csv("/Users/gyandookie/IODS-project/data/human.csv",sep=",", header=TRUE)
 glimpse(human)
 
