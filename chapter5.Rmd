@@ -105,47 +105,44 @@ The above summaries and visualizations showed the following.
 
 * There was a mildly strong positive correlation between crime and index of accessibility to radial highways (rad).
 * There was a moderate positive correlation between crime and the following variables.
-    * nitrogen oxides concentration (parts per 10 million) (nox)
-    * proportion of non-retail business acres per town (indus)
-    * lower status of the population (percent) (lstat)
-    * full-value property-tax rate per \$10,000 (tax)
-* No variable had a very strong negative correlation with crime.
-* The following had a moderate negative correlation with crime.
-      * weighted mean of distances to five Boston employment centres (dis)
-      * 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town (black)
-      * median value of owner-occupied homes in \$1000s (medv)
-* Some relationships between the other variables
-    * There was a quite strong to strong correlation between the following pairs: 1) rad:tax, indus:nox:rm (average number of rooms per dwelling)
-    * There was a quite strong negative correlation between the following pairs: 1) indus:dis, 2) nox:dis, 3) age: dis and lstat:medv
+    * correlations here
+    * correlations here
+    * lcorrelations here
+    * correlations here
+* Comment here
+* Comment here
+      * correlations here
+    * correlations here
+    * lcorrelations here
+    * correlations here
+* Comment here
+    ** correlations here
+    * correlations here
+    * lcorrelations here
+    * correlations here
     
       
-  The moderate negative correlation between crime and the black population was a small surprise because the media usually depicts these two as having a strong correlational and even causational relationship.
-    
 
-### 3. Standardizing / scaling the data and dividing the data to train and test sets
 
-##### **3.1 Scaling and standardizing**
-Next we'll center and standardize the variables.
+### More plots here (boxplots, density plots, bar plots)
+
+
+
 
 ```{r}
 # 
-# boston_scaled <- scale(Boston)
+# boxplots
 
 ```
 
 Let's look at the summaries of the scaled variables and see how the variables changed ( e.g. the means are now all at zero)
 
 ```{r, echo=FALSE}
-# summary(boston_scaled)
-#sd(boston_scaled)
+
 ```
 
-* The following variables have a considerably smaller median than mean value. This indicates towards an outlier(s) on the positive side that(which) affect(s) the mean (which in this case shouldn't be whole heartedly trusted)
-    * crim, zn, rad, tax
-* The following variables have a slightly bigger median than mean value. This indicates towards an outlier(s) on the negative side that(which) affect(s) the mean (which in this case shouldn't be whole heartedly trusted)
-    * age, black
-    
-Here are the standard deviations of the variables.    
+bar plots
+
 ```{r, echo=FALSE}
 # library(dplyr)
 # 
@@ -155,29 +152,21 @@ Here are the standard deviations of the variables.
 ```
 
     
+### **Performing th Principal component analysis (PCA)**
 
-
-Next we'll create a categorical dataset of the crime rate variable in the scaled Boston dataset using quantiles as the break points in the categorical variable.
-
+Next we'll perform principal component analysis (PCA) on the not standardized human data and show variability captured by the principal components.
 ```{r, message= FALSE}
-# class of the boston_scaled object
-# class(boston_scaled)
-# # save the scaled crim as scaled_crim
-# # change the object to data frame
-# boston_scaled <- as.data.frame(boston_scaled)
-# class(boston_scaled)
-# scaled_crim <- boston_scaled$crim
+### PCA on the non standardized human data
 ```
 
-Let's take a look at the summary of the scaled crim variable and then create a quantile vector of it. After that we'll create a vector for the label names before cutting the scaled variable into bins.
-
+Then we'll daw a biplot displaying the observations by the first two principal components (PC1 coordinate in x-axis, PC2 coordinate in y-axis), along with arrows representing the original variables. (0-2 points)
 ```{r}
 
-# summary(scaled_crim)
+# bibplot of first two principal components
 
 ```
 
-The scaled crime variable has the largest range compared with other scaled variables (from -0.419400 to 9.924000). The median is considerably lower than the mean. This indicates that there are few observations that have a much higher positive crime value than the majority of observations.
+Standardize the variables in the human data and repeat the above analysis. Interpret the results of both analysis (with and without standardizing). Are the results different? Why or why not? Include captions in you plots where you describe the results by using not just your variable names, but the actual phenomenons they relate to. (0-4 points)
 
 ```{r}
 # bins <- quantile(scaled_crim)
@@ -186,7 +175,7 @@ The scaled crime variable has the largest range compared with other scaled varia
 # crime <- cut(scaled_crim, breaks = bins,label=range, include.lowest = TRUE)
 ```
 
-Now we can remove the original crim variable from the scaled dataset and add the categorical value to the dataset.
+Some text here
 
 ```{r}
 
@@ -195,175 +184,68 @@ Now we can remove the original crim variable from the scaled dataset and add the
 # table(crime)
 ```
 
-Let's drop the old crime rate variable from the dataset
-We will want to use the boston_scaled (which is an object right now) as a data frame. So now we'll change the object to data frame with as.data.frame() function.
+My personal interpretations of the first two principal component dimensions based on the biplot drawn after PCA on the standardized human data. (0-2 points)
+
+
+
+Next we'll load the tea dataset from the package Factominer. Explore the data briefly: look at the structure and the dimensions of the data and visualize it. Then do Multiple Correspondence Analysis on the tea data (or to a certain columns of the data, it’s up to you). Interpret the results of the MCA and draw at least the variable biplot of the analysis. You can also explore other plotting options for MCA. Comment on the output of the plots. (0-4 points)
 
 ```{r}
 
-# Here we'll divide the data in two parts: the train (80 %) and the test (20 %) sets
-# first we'll get the numbers of rows and save it for the next step
-# n <- nrow(boston_scaled)
-# # Then we'll choose randomly 80 % of the data and create a train set
-# ind <- sample(n,  size = n * 0.8)
-# train <- boston_scaled[ind,]
-# # Creating a test set (i.e. choosing the  20 % data that was not chosen by the sample() function) is based on what we did before
-# test <- boston_scaled[-ind,]
-# Now we'll save the classes from the test data and remove the crime variable from the test data
-# TARKISTA VIELÄ PITIKÖ NÄIN TEHDÄ: pitää, tehtävän 5. kohdassa, kopioi/siirrä seuraavat 2 riviä sinne
-#correct_classes <- test$crime
-#test <- dplyr::select(test, -crime)
-```
-<!-- Fit the linear discriminant analysis on the train set. Use the categorical crime rate as the target variable and all the other variables in the dataset as predictor variables. Draw the LDA (bi)plot. (3 points) -->
 
-### 4. Fitting the linear discriminant analysis and drawing the biplot
-##### **4.1 Fitting the linear discriminant analysis with lda() and printing the fitted object**
+```
+
 
 ```{r, echo=FALSE}
-# Fitting the linear discriminant analysis with lda()
-# lda.fit <- lda(crime ~., data = train)
 
-# printing the lda.fit object
-# lda.fit
 
 ```
 
 
-##### **4.2 Plotting the LDA results into a biplot**
+
 
 ````{r, echo=FALSE}
-# the function for lda biplot arrows
-# lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "red", tex = 0.75, choices = c(1,2)){
-#   heads <- coef(x)
-#   arrows(x0 = 0, y0 = 0, 
-#          x1 = myscale * heads[,choices[1]], 
-#          y1 = myscale * heads[,choices[2]], col=color, length = arrow_heads)
-#   text(myscale * heads[,choices], labels = row.names(heads), 
-#        cex = tex, col=color, pos=3)
-# }
-
-# target classes as numeric
-# classes <- as.numeric(train$crime)
-
-# plot the lda results
-# plot(lda.fit, dimen = 2, col=classes, pch=classes)
-# lda.arrows(lda.fit, myscale = 1.5)
 
 ```
 
-The biplotted LDA results shows the following.
 
-* The model separates well the high category from other categories and the high categories data points are also quite close to the center of the category's mean
-* The other categories' datapoints are more spread out and have noticable overlapping with other categories. The model doesn not cluster them as well as the high category.
-
-### 5. Predicting the classes with the LDA model on the test data
-<!-- 
-Save the crime categories from the test set and then remove the categorical crime variable from the test dataset (GD: mutate()?). Then predict the classes with the LDA model on the test data. Cross tabulate the results with the crime categories from the test set. Comment on the results. (3 points)
--->
+Some final comments here
 
 ```{r, echo=FALSE}
-# correct_classes <- test$crime
-# test <- dplyr::select(test, -crime)
+
 ```
 
-After the crime categories have been saved for later use and the crime variable have been removed from the test data set like this: *dplyr::select(test, -crime)*, it's time to predict the classes with the LDA model on the test data.
-
-#### **5.1 Crosstabulate the results with the crime categories from the test set.**
 
 ```{r, echo=FALSE}
-# Here we predict classes with test data and cross tabulate the results
-# lda.pred <- predict(lda.fit, newdata = test)
-# table(correct = correct_classes, predicted = lda.pred$class)
 
 ```
-The prediction of the classes with the LDA model ended with following results which are in the order for the succes of the prediction
 
-* The model predicted the high values quite accurately (the correct was 24 high, 3 moderately high)
-* The prediction of the the rest of the crime categories wasn't as accurate as the prediction of the high category.
-    * The prediction of the low category  (the correct was 16 low, 7 medium low and 1 medium high) and the medium high category (the correct was 14 medium high, 2 medium low, 3 low and 1 high) was moderately good
-    * The medium low category was the least accurate (the correct was medium low 15,low 9 and medium high 7)
-    
-  All and all it can be summarized that the LDA model predicted the classes moderately well.
-
-<!-- Reload the Boston dataset and standardize the dataset (we did not do this in the Datacamp exercises, but you should scale the variables to get comparable distances). Calculate the distances between the observations. Run k-means algorithm on the dataset. Investigate what is the optimal number of clusters and run the algorithm again. Visualize the clusters (for example with the pairs() or ggpairs() functions, where the clusters are separated with colors) and interpret the results. (4 points) -->
-
-### 6. Calculating the distances and visualizing the clusters
-
-##### 6.1 Calculate distances
 
 ```{r,echo=FALSE}
-# library(MASS)
-# data("Boston")
-# Boston <- scale(Boston)
+
 
 ```
 
-After reloading the Boston data the next task is to calculate the distances among the datapoints with the dist() function (which will save the distances in a matrix table). Below we see the summaries and heads (the first 6 distances in the matrix) of two types of distances, 1) euclidian and 2) manhattan.
 
-*Euclidian distances*
-```{r, echo=FALSE}
-# euclidean distance matrix
-# dist_eu <- dist(Boston)
-
-# look at the summary of the distances
-# summary(dist_eu)
-# head(dist_eu)
-```
-
-*Manhattan distances*
-```{r,echo=FALSE}
-# manhattan distance matrix
-# dist_man <- dist(Boston, method="manhattan")
-# 
-# # look at the summary of the distances
-# summary(dist_man)
-# head(dist_man)
-```
-
-##### **6.2 Plotting and finding out the optimal number of clusters with K-means and the within cluster sum of squares -method**
-Using K-means to produce the clusters and then the the result is plotted.
 
 ```{r, echo=FALSE}
-# library(ggplot2)
-# #library(GGally)
-# # k-means clustering
-# km <-kmeans(dist_eu, centers = 4)
-# 
-# # plot the Boston dataset with clusters
-# pairs(Boston, col = km$cluster)
-# 
-# #ggpairs(Boston, col =km$cluster)
+
 ```
 
-The main goal is to find out what is the optimal number of clusters. This can be done by using different values for the kmeans' centers-argument. In practise trial and error might be a difficult path. By using the with in cluster sum of squares (WCSS) in combination with k-means and plotting the task becomes easier. The point where WCSS drops radically is the optimal number of clusters.
+```{r,echo=FALSE}
+
+```
+
+
+
+```{r, echo=FALSE}
+
+```
+
+
 
 ```{r,echo=FALSE}
-### using set seed to produce the same random number everytime. This way the random result will be same and comparable each time
-# set.seed(123)
-# 
-# # euclidean distance matrix
-# dist_eu <- dist(Boston)
-# 
-# # determine the number of clusters
-# k_max <- 10
-# 
-# # calculate the total within sum of squares
-# twcss <- sapply(1:k_max, function(k){kmeans(dist_eu, k)$tot.withinss})
-# 
-# # visualize the results
-# plot(1:k_max, twcss, type='b')
 
-# k-means clustering
-# km <-kmeans(dist_eu, centers = 2)
-# # visualize the results
-# plot(1:k_max, twcss, type='b')
-# ```
-# 
-# The dropping point of the WCSS visualization was 2, so below is the replotted matrix with clusters -visualization with the optimal number of clusters (2).
-# 
-# ```{r, echo=FALSE}
-# 
-# # plot the Boston dataset with clusters
-# pairs(Boston, col = km$cluster)
 
 ```
 

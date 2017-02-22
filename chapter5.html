@@ -211,129 +211,53 @@ $(document).ready(function () {
 <li>There was a mildly strong positive correlation between crime and index of accessibility to radial highways (rad).</li>
 <li>There was a moderate positive correlation between crime and the following variables.
 <ul>
-<li>nitrogen oxides concentration (parts per 10 million) (nox)</li>
-<li>proportion of non-retail business acres per town (indus)</li>
-<li>lower status of the population (percent) (lstat)</li>
-<li>full-value property-tax rate per $10,000 (tax)</li>
+<li>correlations here</li>
+<li>correlations here</li>
+<li>lcorrelations here</li>
+<li>correlations here</li>
 </ul></li>
-<li>No variable had a very strong negative correlation with crime.</li>
-<li>The following had a moderate negative correlation with crime.
+<li>Comment here</li>
+<li>Comment here
 <ul>
-<li>weighted mean of distances to five Boston employment centres (dis)</li>
-<li>1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town (black)</li>
-<li>median value of owner-occupied homes in $1000s (medv)</li>
+<li>correlations here</li>
+<li>correlations here</li>
+<li>lcorrelations here</li>
+<li>correlations here</li>
 </ul></li>
-<li>Some relationships between the other variables
+<li>Comment here ** correlations here
 <ul>
-<li>There was a quite strong to strong correlation between the following pairs: 1) rad:tax, indus:nox:rm (average number of rooms per dwelling)</li>
-<li>There was a quite strong negative correlation between the following pairs: 1) indus:dis, 2) nox:dis, 3) age: dis and lstat:medv</li>
+<li>correlations here</li>
+<li>lcorrelations here</li>
+<li>correlations here</li>
 </ul></li>
 </ul>
-<p>The moderate negative correlation between crime and the black population was a small surprise because the media usually depicts these two as having a strong correlational and even causational relationship.</p>
 </div>
 </div>
-<div id="standardizing-scaling-the-data-and-dividing-the-data-to-train-and-test-sets" class="section level3">
-<h3>3. Standardizing / scaling the data and dividing the data to train and test sets</h3>
-<div id="scaling-and-standardizing" class="section level5">
-<h5><strong>3.1 Scaling and standardizing</strong></h5>
-<p>Next we’ll center and standardize the variables.</p>
+<div id="more-plots-here-boxplots-density-plots-bar-plots" class="section level3">
+<h3>More plots here (boxplots, density plots, bar plots)</h3>
 <pre class="r"><code># 
-# boston_scaled &lt;- scale(Boston)</code></pre>
+# boxplots</code></pre>
 <p>Let’s look at the summaries of the scaled variables and see how the variables changed ( e.g. the means are now all at zero)</p>
-<ul>
-<li>The following variables have a considerably smaller median than mean value. This indicates towards an outlier(s) on the positive side that(which) affect(s) the mean (which in this case shouldn’t be whole heartedly trusted)
-<ul>
-<li>crim, zn, rad, tax</li>
-</ul></li>
-<li>The following variables have a slightly bigger median than mean value. This indicates towards an outlier(s) on the negative side that(which) affect(s) the mean (which in this case shouldn’t be whole heartedly trusted)
-<ul>
-<li>age, black</li>
-</ul></li>
-</ul>
-<p>Here are the standard deviations of the variables.</p>
-<p>Next we’ll create a categorical dataset of the crime rate variable in the scaled Boston dataset using quantiles as the break points in the categorical variable.</p>
-<pre class="r"><code># class of the boston_scaled object
-# class(boston_scaled)
-# # save the scaled crim as scaled_crim
-# # change the object to data frame
-# boston_scaled &lt;- as.data.frame(boston_scaled)
-# class(boston_scaled)
-# scaled_crim &lt;- boston_scaled$crim</code></pre>
-<p>Let’s take a look at the summary of the scaled crim variable and then create a quantile vector of it. After that we’ll create a vector for the label names before cutting the scaled variable into bins.</p>
-<pre class="r"><code># summary(scaled_crim)</code></pre>
-<p>The scaled crime variable has the largest range compared with other scaled variables (from -0.419400 to 9.924000). The median is considerably lower than the mean. This indicates that there are few observations that have a much higher positive crime value than the majority of observations.</p>
+<p>bar plots</p>
+</div>
+<div id="performing-th-principal-component-analysis-pca" class="section level3">
+<h3><strong>Performing th Principal component analysis (PCA)</strong></h3>
+<p>Next we’ll perform principal component analysis (PCA) on the not standardized human data and show variability captured by the principal components.</p>
+<pre class="r"><code>### PCA on the non standardized human data</code></pre>
+<p>Then we’ll daw a biplot displaying the observations by the first two principal components (PC1 coordinate in x-axis, PC2 coordinate in y-axis), along with arrows representing the original variables. (0-2 points)</p>
+<pre class="r"><code># bibplot of first two principal components</code></pre>
+<p>Standardize the variables in the human data and repeat the above analysis. Interpret the results of both analysis (with and without standardizing). Are the results different? Why or why not? Include captions in you plots where you describe the results by using not just your variable names, but the actual phenomenons they relate to. (0-4 points)</p>
 <pre class="r"><code># bins &lt;- quantile(scaled_crim)
 # 
 # range &lt;- c(&quot;low&quot;,&quot;med_low&quot;,&quot;med_high&quot;,&quot;high&quot;)
 # crime &lt;- cut(scaled_crim, breaks = bins,label=range, include.lowest = TRUE)</code></pre>
-<p>Now we can remove the original crim variable from the scaled dataset and add the categorical value to the dataset.</p>
+<p>Some text here</p>
 <pre class="r"><code># boston_scaled &lt;- dplyr::select(boston_scaled, -crim)
 # boston_scaled &lt;- data.frame(boston_scaled, crime)
 # table(crime)</code></pre>
-<p>Let’s drop the old crime rate variable from the dataset We will want to use the boston_scaled (which is an object right now) as a data frame. So now we’ll change the object to data frame with as.data.frame() function.</p>
-<pre class="r"><code># Here we'll divide the data in two parts: the train (80 %) and the test (20 %) sets
-# first we'll get the numbers of rows and save it for the next step
-# n &lt;- nrow(boston_scaled)
-# # Then we'll choose randomly 80 % of the data and create a train set
-# ind &lt;- sample(n,  size = n * 0.8)
-# train &lt;- boston_scaled[ind,]
-# # Creating a test set (i.e. choosing the  20 % data that was not chosen by the sample() function) is based on what we did before
-# test &lt;- boston_scaled[-ind,]
-# Now we'll save the classes from the test data and remove the crime variable from the test data
-# TARKISTA VIELÄ PITIKÖ NÄIN TEHDÄ: pitää, tehtävän 5. kohdassa, kopioi/siirrä seuraavat 2 riviä sinne
-#correct_classes &lt;- test$crime
-#test &lt;- dplyr::select(test, -crime)</code></pre>
-<!-- Fit the linear discriminant analysis on the train set. Use the categorical crime rate as the target variable and all the other variables in the dataset as predictor variables. Draw the LDA (bi)plot. (3 points) -->
-</div>
-</div>
-<div id="fitting-the-linear-discriminant-analysis-and-drawing-the-biplot" class="section level3">
-<h3>4. Fitting the linear discriminant analysis and drawing the biplot</h3>
-<div id="fitting-the-linear-discriminant-analysis-with-lda-and-printing-the-fitted-object" class="section level5">
-<h5><strong>4.1 Fitting the linear discriminant analysis with lda() and printing the fitted object</strong></h5>
-</div>
-<div id="plotting-the-lda-results-into-a-biplot" class="section level5">
-<h5><strong>4.2 Plotting the LDA results into a biplot</strong></h5>
-<p>The biplotted LDA results shows the following.</p>
-<ul>
-<li>The model separates well the high category from other categories and the high categories data points are also quite close to the center of the category’s mean</li>
-<li>The other categories’ datapoints are more spread out and have noticable overlapping with other categories. The model doesn not cluster them as well as the high category.</li>
-</ul>
-</div>
-</div>
-<div id="predicting-the-classes-with-the-lda-model-on-the-test-data" class="section level3">
-<h3>5. Predicting the classes with the LDA model on the test data</h3>
-<!-- 
-Save the crime categories from the test set and then remove the categorical crime variable from the test dataset (GD: mutate()?). Then predict the classes with the LDA model on the test data. Cross tabulate the results with the crime categories from the test set. Comment on the results. (3 points)
--->
-<p>After the crime categories have been saved for later use and the crime variable have been removed from the test data set like this: <em>dplyr::select(test, -crime)</em>, it’s time to predict the classes with the LDA model on the test data.</p>
-<div id="crosstabulate-the-results-with-the-crime-categories-from-the-test-set." class="section level4">
-<h4><strong>5.1 Crosstabulate the results with the crime categories from the test set.</strong></h4>
-<p>The prediction of the classes with the LDA model ended with following results which are in the order for the succes of the prediction</p>
-<ul>
-<li>The model predicted the high values quite accurately (the correct was 24 high, 3 moderately high)</li>
-<li>The prediction of the the rest of the crime categories wasn’t as accurate as the prediction of the high category.
-<ul>
-<li>The prediction of the low category (the correct was 16 low, 7 medium low and 1 medium high) and the medium high category (the correct was 14 medium high, 2 medium low, 3 low and 1 high) was moderately good</li>
-<li>The medium low category was the least accurate (the correct was medium low 15,low 9 and medium high 7)</li>
-</ul></li>
-</ul>
-<p>All and all it can be summarized that the LDA model predicted the classes moderately well.</p>
-<!-- Reload the Boston dataset and standardize the dataset (we did not do this in the Datacamp exercises, but you should scale the variables to get comparable distances). Calculate the distances between the observations. Run k-means algorithm on the dataset. Investigate what is the optimal number of clusters and run the algorithm again. Visualize the clusters (for example with the pairs() or ggpairs() functions, where the clusters are separated with colors) and interpret the results. (4 points) -->
-</div>
-</div>
-<div id="calculating-the-distances-and-visualizing-the-clusters" class="section level3">
-<h3>6. Calculating the distances and visualizing the clusters</h3>
-<div id="calculate-distances" class="section level5">
-<h5>6.1 Calculate distances</h5>
-<p>After reloading the Boston data the next task is to calculate the distances among the datapoints with the dist() function (which will save the distances in a matrix table). Below we see the summaries and heads (the first 6 distances in the matrix) of two types of distances, 1) euclidian and 2) manhattan.</p>
-<p><em>Euclidian distances</em></p>
-<p><em>Manhattan distances</em></p>
-</div>
-<div id="plotting-and-finding-out-the-optimal-number-of-clusters-with-k-means-and-the-within-cluster-sum-of-squares--method" class="section level5">
-<h5><strong>6.2 Plotting and finding out the optimal number of clusters with K-means and the within cluster sum of squares -method</strong></h5>
-<p>Using K-means to produce the clusters and then the the result is plotted.</p>
-<p>The main goal is to find out what is the optimal number of clusters. This can be done by using different values for the kmeans’ centers-argument. In practise trial and error might be a difficult path. By using the with in cluster sum of squares (WCSS) in combination with k-means and plotting the task becomes easier. The point where WCSS drops radically is the optimal number of clusters.</p>
-</div>
+<p>My personal interpretations of the first two principal component dimensions based on the biplot drawn after PCA on the standardized human data. (0-2 points)</p>
+<p>Next we’ll load the tea dataset from the package Factominer. Explore the data briefly: look at the structure and the dimensions of the data and visualize it. Then do Multiple Correspondence Analysis on the tea data (or to a certain columns of the data, it’s up to you). Interpret the results of the MCA and draw at least the variable biplot of the analysis. You can also explore other plotting options for MCA. Comment on the output of the plots. (0-4 points)</p>
+<p>Some final comments here</p>
 </div>
 </div>
 
