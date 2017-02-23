@@ -182,7 +182,7 @@ Then we'll draw a biplot displaying the observations by the first two principal 
 
 # bibplot of first two principal components
 # draw a biplot of the principal component representation and the original variables
-biplot(pca_human, choices = 1:2, cex=c(1.0 ,1.0), col= c("grey40", "blue"), xlab = pc_lab[1] , ylab = pc_lab[2])
+biplot(pca_human, choices = 1:2, cex=c(1.2 ,1.2), col= c("grey40", "deeppink2"), xlab = pc_lab[1] , ylab = pc_lab[2])
 
 ```
 
@@ -216,7 +216,7 @@ pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
 #biplot(pca_human, choices = 1:2, cex=c(1 ,1.2), col= c("grey40", "deeppink2"))
 
-biplot(pca_human, cex = c(0.8, 0.8), col = c("grey40", "blue"), xlab = pc_lab[1] , ylab = pc_lab[2])
+biplot(pca_human, cex = c(0.8, 1), col = c("grey40", "deeppink2"), xlab = pc_lab[1] , ylab = pc_lab[2])
 ```
 
 Let's interpret the results of both analysis (with and without standardizing). Are the results different? Why or why not? Including captions in the plots where I describe the results by using not just your variable names, but the actual phenomenons they relate to. (0-4 points)
