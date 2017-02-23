@@ -6,7 +6,7 @@ output: html_document
 ---
 ```{r, echo=FALSE, message=FALSE}
 
-#install.packages("dplyr")
+#install.packages("dplyr",  repos = "https://ftp.acc.umu.se/mirror/CRAN/")
 #install.packages("corrplot")
 
 #install.packages("tidyr")
@@ -247,23 +247,59 @@ data(tea)
 Let's explore the data briefly: look at the structure and the dimensions of the data and visualize it.
 
 ```{r, echo=FALSE}
-str(tea)
+# column names to keep in the dataset
+keep_columns <- c("Tea", "How", "how", "sugar", "where", "lunch")
+keep_columns
+#head(tea)
 dim(tea)
-#ggpairs(tea)
+str(tea)
+names(tea)
+# select the 'keep_columns' to create a new dataset
+tea_time <- select(tea, one_of(keep_columns))
+
+# look at the summaries and structure of the data
+summary(tea_time)
+str(tea_time)
+
+# visualize the dataset
+gather(tea_time) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_bar() + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+
 
 ```
 
+Here's a summary of the tea data's variables and the distributions within their levels.
 
+```{r, echo=FALSE}
+summary(tea)
+
+```
+
+Let's take a look at the correlations of the tea dataset with cor() (produces a correlation matrix) and corrplot() (visualizes the correlation matrix as pairs)
 
 
 ````{r, echo=FALSE}
 
+
+
+# Now we'll visualize the correlation matrix. To reduce repetition, we'll visualize only the upper part of the plot (as is well known, the top part of the correlation matrix contains the same correlations as the bottom part)
+#corrplot(cor_matrixT, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl.cex=0.6)
 ```
 
+Let's do the multiple correspondence analysis of selected tea variables.
 
-Some final comments here
+```{r, echo=FALSE, warning=FALSE}
 
-```{r, echo=FALSE}
+# multiple correspondence analysis
+mca <- MCA(tea_time, graph = FALSE)
+
+# summary of the model
+summary(mca)
+names(mca)
+# visualize MCA
+plot(mca, invisible=c(habillage="quali"))
+
+
+
 
 ```
 
