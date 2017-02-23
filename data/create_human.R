@@ -55,7 +55,9 @@ str(human)
 
 
 #human <- mutate(human, GNI = as.numeric(GNI))
-human$GNI<- str_replace(human$GNI, pattern=",", replace ="") %>% as.numeric() 
+#human$GNI<- str_replace(human$GNI, pattern=",", replace ="") %>% as.numeric() 
+human$GNI<- str_replace(human$GNI, pattern=",", replace ="")
+human$GNI <- as.numeric(human$GNI) 
 
 
 str(human$GNI)
@@ -87,7 +89,8 @@ human
 
 
 # remove the Country variable
-human <- select(human, EduSecondFemale, LabParticipFemale, EduExpYrs, LifeExpBirth, GNI, MatMortRat, AdolBirthRate, ParlPercRepres)
+# human <- select(human, EduSecondFemale, LabParticipFemale, EduExpYrs, LifeExpBirth, GNI, MatMortRat, AdolBirthRate, ParlPercRepres)
+human <- select(human, -Country)
 
 dim(human)
 names(human)
@@ -96,11 +99,13 @@ glimpse(human)
 
 # Next we'll save the wrangled and modified data as a .csv file
 
-write.csv(human, "/Users/gyandookie/IODS-project/data/human.csv", row.names = FALSE)
+write.csv(human, "/Users/gyandookie/IODS-project/data/human.csv", row.names = TRUE)
 
 # Let's double check the saved file by loading it and printing some of it's contents back to the console
 # Important: the separator is a comma (",") as the file extension .csv implies 
 
 human <- read.csv("/Users/gyandookie/IODS-project/data/human.csv",sep=",", header=TRUE)
 glimpse(human)
+str(human)
+str(human$GNI)
 

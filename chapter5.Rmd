@@ -20,7 +20,8 @@ library(GGally)
 
 # Load the ‘human’ data into R. Explore the structure and the dimensions of the data and describe the dataset briefly, assuming the reader has no previous knowledge of it (this is now close to the reality, since you have named the variables yourself). (0-1 point)
 
-human <- read.table("data/human.csv", header= TRUE, sep=",")
+#human <- read.table("data/human.csv", header= TRUE, sep=",")
+human <- read.table ("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human2.txt", header=TRUE, sep=",")
 
 ```
 
@@ -53,7 +54,14 @@ Here we'll print out the summary of the data with the *summary()* function to ge
 ```{r, echo=FALSE}
 summary(human)
 
-summarise (human, sd(EduSecondFemale),sd(LabParticipFemale),sd(EduExpYrs),sd(LifeExpBirth),sd(GNI),sd(MatMortRat),sd(AdolBirthRate),sd(ParlPercRepres))
+```
+
+Here are the standard deviations of the variables.
+(Add some analysis here)
+
+```{r, echo=FALSE}
+# Lasketaan muuttujien keskihajonnat (tehdään tämä uudestaan, kun muuttujat on skaalattu)
+summarise (human, sd(Edu2.FM),sd(Labo.FM),sd(Edu.Exp),sd(Life.Exp),sd(GNI),sd(Mat.Mor),sd(Ado.Birth),sd(Parli.F))
 
 
 
@@ -73,7 +81,7 @@ First we'll produce a matrix plot with the basic packages pairs.
 ```{r, echo=FALSE}
 # Then we'll take a look at the graphical overview
 pairs(human)
-ggpairs(human)
+#ggpairs(human)
 
 
 
@@ -101,7 +109,6 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
 
 
 ```
-<!-- Standardize the dataset and print out summaries of the scaled data. How did the variables change? Create a categorical variable of the crime rate in the Boston dataset (from the scaled crime rate). Use the quantiles as the break points in the categorical variable. Drop the old crime rate variable from the dataset. Divide the dataset to train and test sets, so that 80% of the data belongs to the train set. (2 points) -->
 
 The above summaries and visualizations showed the following.
 
@@ -154,41 +161,62 @@ bar plots
 ```
 
     
-### **Performing th Principal component analysis (PCA)**
+### **Performing the Principal component analysis (PCA)**
 
 Next we'll perform principal component analysis (PCA) on the not standardized human data and show variability captured by the principal components.
-```{r, message= FALSE}
+```{r, echo=FALSE, message= FALSE, warning=FALSE}
 ### PCA on the non standardized human data
 pca_human <- prcomp(human)
+s <- summary(pca_human)
 
+pca_pr <- round(100*s$importance[2, ], digits = 1)
+pca_pr
+pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
 ## puuttuuko jotain dataa, kun ilmoittaa zero-lenght
 
 ```
 
-Then we'll daw a biplot displaying the observations by the first two principal components (PC1 coordinate in x-axis, PC2 coordinate in y-axis), along with arrows representing the original variables. (0-2 points)
-```{r}
+Then we'll draw a biplot displaying the observations by the first two principal components (PC1 coordinate in x-axis, PC2 coordinate in y-axis), along with arrows representing the original variables. (0-2 points)
+```{r, echo=FALSE, message= FALSE, warning=FALSE}
 
 # bibplot of first two principal components
 # draw a biplot of the principal component representation and the original variables
-biplot(pca_human, choices = 1:2, cex=c(1 ,1.2), col= c("grey40", "deeppink2"))
+biplot(pca_human, choices = 1:2, cex=c(1.2 ,1.2), col= c("grey40", "deeppink2"), xlab = pc_lab[1] , ylab = pc_lab[2])
 
 ```
 
 Standardize the variables in the human data and repeat the above analysis. Interpret the results of both analysis (with and without standardizing). Are the results different? Why or why not? Include captions in you plots where you describe the results by using not just your variable names, but the actual phenomenons they relate to. (0-4 points)
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # standardize the variables
 human_std <- scale(human)
 summary(human_std)
+str(human_std)
+
+```
+```{r, echo=FALSE}
+
+# Lasketaan standardoitujen muuttujien keskihajonnat
+#summarise(human_std_mat, sd(Edu2.FM),sd(Labo.FM),sd(Edu.Exp),sd(Life.Exp),sd(GNI),sd(Mat.Mor),sd(Ado.Birth),sd(Parli.F)
+
+```
+```{r, echo=FALSE}
 
 # perform principal component analysis (with the SVD method)
 pca_human <- prcomp(human_std)
+s <- summary(pca_human)
+pca_pr <- round(100*s$importance[2, ], digits = 1)
+pca_pr
+pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
 # draw a biplot of the principal component representation and the original variables
 ## remember to add caption names (in place of variable names) to the plots describing the phenomenons
-biplot(pca_human, choices = 1:2, cex=c(1 ,1.2), col= c("grey40", "deeppink2"))
 
+
+#biplot(pca_human, choices = 1:2, cex=c(1 ,1.2), col= c("grey40", "deeppink2"))
+
+biplot(pca_human, cex = c(0.8, 1), col = c("grey40", "deeppink2"), xlab = pc_lab[1] , ylab = pc_lab[2])
 ```
 
 Let's interpret the results of both analysis (with and without standardizing). Are the results different? Why or why not? Including captions in the plots where I describe the results by using not just your variable names, but the actual phenomenons they relate to. (0-4 points)
@@ -221,7 +249,7 @@ Let's explore the data briefly: look at the structure and the dimensions of the 
 ```{r, echo=FALSE}
 str(tea)
 dim(tea)
-ggpairs(tea)
+#ggpairs(tea)
 
 ```
 
