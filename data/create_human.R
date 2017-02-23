@@ -55,9 +55,12 @@ str(human)
 
 
 #human <- mutate(human, GNI = as.numeric(GNI))
-#human$GNI<- str_replace(human$GNI, pattern=",", replace ="") %>% as.numeric() 
-human$GNI<- str_replace(human$GNI, pattern=",", replace ="")
-human$GNI <- as.numeric(human$GNI) 
+GNIN <- str_replace(human$GNI, pattern=",", replace ="") %>% as.numeric() 
+#human$GNI<- str_replace(human$GNI, pattern=",", replace ="")
+#human$GNI <- as.numeric(human$GNI) 
+# human$GNIN <- as.numeric(human$GNI) 
+mutate(human, GNI = GNIN)
+
 
 
 str(human$GNI)
