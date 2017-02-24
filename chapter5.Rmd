@@ -28,6 +28,17 @@ human <- read.table ("http://s3.amazonaws.com/assets.datacamp.com/production/cou
 #Chapter 5 - Dimensionality reduction techniques
 ##### The Human Development Index dataset was created to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not economic growth alone. Here, I have wrangled this data into a more concise form and named it "human". In the following data analysis I’m going to  perform Principal Component Analysis (PCA) on the human dataset and then Multiple Correspondence Analysis (MCA) on the tea dataset. Before the actual analysis I'll go through some preliminary explorations of the data.
 
+It's a good idea to introduce the variables of the human dataset before moving further.
+
+* Edu2.F = Proportion of females with at least secondary education
+* Labo.FM = Proportion of females in the labour force
+* Edu.Exp = Expected years of schooling
+* Life.Exp = Life expectancy at birth
+* GNI = Gross National Income per capita
+* Mat.Mor = Maternal mortality ratio
+* Ado.Birth = Adolescent birth rate
+* Parli.F = Percetange of female representatives in parliament
+
 Here are the links to the metadata of the Human Development Index dataset.
 
 * [Human Development Index](http://hdr.undp.org/en/content/human-development-index-hdi)
@@ -156,7 +167,7 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
 
 ```
 
-bar plots
+
 
 ```{r, echo=FALSE}
 # library(dplyr)
@@ -168,7 +179,7 @@ bar plots
 
     
 ### **2. Performing the Principal component analysis (PCA) on the human data**
-
+#### **2.1 PCA on non-standardized data**
 Next we'll perform principal component analysis (PCA) on the not standardized human data and show variability captured by the principal components.
 ```{r, echo=FALSE, message= FALSE, warning=FALSE}
 ### PCA on the non standardized human data
@@ -192,7 +203,12 @@ biplot(pca_human, choices = 1:2, cex=c(1.0 ,1.0), col= c("grey40", "blue"), xlab
 
 ```
 
-Let's look at the summaries of the scaled variables. See how the variables changed ( e.g. the means are now all at zero).
+There’s something wrong with this PCA and it’s plot. The first principal (PC1) component explain 100% of the variance and the following principal components (PC2-PC8) explain 0 %. The only variable name shown is GNI which is connected to the first principal component. PCA is sensitive to the relative scaling of the original features and assumes that features with larger variance are more important than features with smaller variance. The human dataset's GNI variable has a radically bigger scale and thus bigger variance than other variables (the long arrow also tells us there’s a quite big stadard variation within this variable). This is why this PCA with non-standardized variables failed miserably.
+
+Let’s fix this problem by standardizing the data before using it in the principal component analysis.
+
+#### **2.2 PCA on standardized/scaled data**
+Here are the summaries of the scaled variables. See how the variables changed ( e.g. the means are now all at zero). As we can see below, the distribution of explainability is now more spread among the PC's. The PCA plot also makes now a lot more sense.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # standardize the variables
@@ -236,11 +252,9 @@ biplot(pca_human, expand=15, xlim=c(-0.30, 0.0), ylim=c(-0.1, 0.1))
 
 <!-- Give your personal interpretations of the first two principal component dimensions based on the biplot drawn after PCA on the standardized human data. (0-2 points) -->
 
-#### **Intepretation and analysis of PCA and the corresponding biplots**
+#### **2.3 Intepretation and analysis of PCA and the corresponding biplots**
 Let's interpret the results of both analysis and their corresponding biblots
-The biplot that was plotted from the non-standardized data (the one with the blue arrow) is not very informative. PC2 is 100% and PC1 0%. GNI is the only arrow (pointing to PC2) that is visible (all the other are packed together with no standard deviation, I guess)
-
-The second biplot based on the standardized variables offers a lot of interesting and visible information.
+The biplot that was plotted from the non-standardized data (the one with the blue arrow) was not very informative, as we learnt above. The second biplot based on the standardized variables on the contrary offers a lot of interesting and visible information.
 
 * Parli.F and Labo.FM variables
     * The angle between thes variables is quite small (about30-degrees) so they are positively quite strongly correlated
@@ -280,16 +294,27 @@ The 2nd principal component PC2 is orthogonal to the first and it captures the m
 
 ### **3. Performing the Multiple Correspondence Analysis (MCA) on the tea data**
 
-Next we'll load the tea dataset from the package Factominer. Explore the data briefly: look at the structure and the dimensions of the data and visualize it. Then do Multiple Correspondence Analysis on the tea data (or to a certain columns of the data, it’s up to you). Interpret the results of the MCA and draw at least the variable biplot of the analysis. You can also explore other plotting options for MCA. Comment on the output of the plots. (0-4 points)
+Next we'll load the tea dataset from the package Factominer and explore the data briefly.
 
-```{r}
+
+```{r, echo=FALSE, message=FALSE}
 # Install Factominer and load in the tea dataset
 #install.packages("FactoMineR")
 library(FactoMineR)
 data(tea)
 
 ```
-Let's explore the data briefly: look at the structure and the dimensions of the data and visualize it.
+
+#### **3.1 The structure and dimensions of the data**
+
+Let's look at the structure and the dimensions of the data first. Then we'll create a subset of it by selecting the following variables.
+
+* Sport
+* effect.on.health
+* sophisticated
+* spirituality
+* friends
+* sex
 
 ```{r, echo=FALSE, warning=FALSE}
 # column names to keep in the dataset
@@ -304,9 +329,22 @@ names(tea)
 #tea <- data.frame(tea)
 tea_time <- dplyr::select(tea, one_of(keep_columns))
 
+```
+
+#### **3.2 The structure and the summary of the subsetted data**
+
+```{r, echo=FALSE}
+
 # look at the summaries and structure of the data
-summary(tea_time)
 str(tea_time)
+summary(tea_time)
+
+
+```
+
+#### 3.3 **The visual overview of the data**
+
+```{r, echo=FALSE, warning=FALSE}
 
 # visualize the dataset
 gather(tea_time) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_bar() + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
@@ -314,10 +352,10 @@ gather(tea_time) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + g
 
 ```
 
-Here's a summary of the tea data's variables and the distributions within their levels.
+<!-- Here's a summary of the tea data's variables and the distributions within their levels. -->
 
 ```{r, echo=FALSE}
-summary(tea)
+#summary(tea)
 
 ```
 
@@ -332,6 +370,7 @@ summary(tea)
 #corrplot(cor_matrixT, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl.cex=0.6)
 ```
 
+#### **3.4 Performing the Multiple Correspondence analysis on the data**
 Let's do the multiple correspondence analysis of selected tea variables.
 
 ```{r, echo=FALSE, warning=FALSE}
@@ -343,7 +382,7 @@ mca <- MCA(tea_time, graph = FALSE)
 summary(mca)
 ```
 
-**Analyzing the MCA's summary table**
+#### **3.5 Analyzing the MCA's summary table**
 
 * The eigen values show the amount of variance captured by the different dimensions. Here we can see the following.
     * Dimension 1 captures 22.5 % of the variance within the data 
@@ -359,7 +398,7 @@ summary(mca)
     * If the value is close to one it indicates a strong link with the variable and dimension. Here (among the three dimensions shown), only Dimension 3 and and the effect.on.health have a categorical variable that is close to one (0.876)
 
 
-
+#### **3.6 Visualizing the Multiple Correspondence Analysis with the plot() function**
 ```{r, echo=FALSE}
 #names(mca)
 # visualize MCA
@@ -370,7 +409,7 @@ plot(mca, invisible=c(habillage="quali"), title= "MCA factor map - tea drinking 
 
 ```
 
-##### Some conclusions of the MCA and it's plot
+#### **3.6 Some conclusions of the MCA and it's plot**
 * There’s a clear difference in the social role of tea between females and males. Men prefer drinking tea alone more often than women and women tend to drink tea with friends more often than men.
 
 This proportional barplot confirms that women drink tea more with friends than men do (which was also suggested by the MCA-plot above).
