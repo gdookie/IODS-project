@@ -1,3 +1,7 @@
+# Author: Gyan Dookie
+# Date: 24.02.2017
+# Description: IODS Chapter 5 wangling exercise. Here I'm combining the human development and gender inequlity dataset and thus creating the human dataset which is then further wrangled and finally saved as the human.csv file.
+
 # Read the “Human development” and “Gender inequality” datas into R
 hd <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human_development.csv", stringsAsFactors = F)
 gii <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/gender_inequality.csv", stringsAsFactors = F, na.strings = "..")
