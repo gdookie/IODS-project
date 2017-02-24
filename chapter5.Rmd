@@ -210,6 +210,7 @@ Let’s fix this problem by standardizing the data before using it in the princi
 #### **2.2 PCA on standardized/scaled data**
 Here are the summaries of the scaled variables. See how the variables changed ( e.g. the means are now all at zero). As we can see below, the distribution of explainability is now more spread among the PC's. The PCA plot also makes now a lot more sense.
 
+
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # standardize the variables
 human_std <- scale(human)
@@ -238,7 +239,7 @@ pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 
 #biplot(pca_human, choices = 1:3, cex=c(1 ,1.2), col= c("grey40", "deeppink2"))
 
-biplot(pca_human, choices = 1:2, cex = c(0.8, 0.8), col = c("black", "red"), xlab = pc_lab[1] , ylab = pc_lab[2])
+biplot(pca_human, choices = 1:2, cex = c(0.8, 0.8), col = c("black", "red"), xlab = pc_lab[1] , ylab = pc_lab[2], main="\n Education, wealth, life expectancy and \n women's role in society \n\n\n")
 ```
 
 **Let's take a closer look at the countries on the "west side" of the biplot and close to PC2.**
@@ -285,7 +286,7 @@ The biplot that was plotted from the non-standardized data (the one with the blu
 
 Generally speaking, the 1st principal component captures the maximum amount of variance from the features in the original data. Here the amount of variance of the data captured by PC1 is 53.6 %.
 The variables/features connected to the PC1 dimension are Mat.Mor (maternal mortality) and Ado.Birth (adolescent birth) pointing their arrows horizontally to the right and Edu.Exp, Life.Exp, Edu2.FM and GNI pointing their arrows horizontally to the left (Mat.Mor and Ado.Birth have a strong negative correlation with Edu.Exp, Life.Exp, Edu2.FM and GNI, as I explained above).
-The countries on the right end of the PC1’s horizontal axis are mostly poor African countries with low education connected numbers and on the opposite side (left) rich European and Asian countries (+ the USA) with high education connected numbers.
+The countries on the right end of the PC1’s horizontal axis are mostly poor African countries with low education connected variable values and on the opposite side (left) rich European and Asian countries (+ the USA) with high education connected variable values.
 
 **Intepretation of PC2**
 
