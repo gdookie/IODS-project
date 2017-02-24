@@ -92,7 +92,7 @@ ggpairs(human)
 
 ```
 
-#### **2.4 The correlations of the data with corrplot()**
+#### **1.4 The correlations of the data with corrplot()**
 
 Now it's time to get a picture of the correlations with the  *cor()* function. Here the correlations were rounded to two desimals to save space.
 
@@ -104,7 +104,7 @@ cor_matrix
 
 ```
 
-#### **2.5 The graphical overview of correlations with the advanced corrplot() function**
+#### **1.5 The graphical overview of correlations with the advanced corrplot() function**
 
 The visualization of the correlation matrix with the advanced *corrplot()* function. To reduce repetition, we'll visualize only the upper part of the plot (as is well known, the top part of the correlation matrix contains the same correlations as the bottom part)
 
@@ -117,33 +117,36 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
 
 The above summaries and visualizations showed the following.
 
-* There was a mildly strong positive correlation between crime and index of accessibility to radial highways (rad).
-* There was a moderate positive correlation between crime and the following variables.
-    * correlations here
-    * correlations here
-    * lcorrelations here
-    * correlations here
-* Comment here
-* Comment here
-      * correlations here
-    * correlations here
-    * lcorrelations here
-    * correlations here
-* Comment here
-    ** correlations here
-    * correlations here
-    * lcorrelations here
-    * correlations here
-    
-      
+Here are some of the exposed correlations
 
-
-### More plots here (boxplots, density plots, bar plots)
-
+* Strong positive correlations between the following variable pairs
+    * Edu.Exp : Life.Exp
+    * Mat.Mor : Ado.Birth
+* Moderate positive correlation between the following variable pairs
+    * Edu.Exp : Edu2.FM
+    * Life.Exp : Edu2.FM
+    * Life.Exp : GNI
+    * GNI : EduExp
+* Strong negative correlation between the following variable pairs
+    * Life.Exp : Mat.Mor
+    * Mat.Mor : Edu.Exp
+* Moderate negative correlation between the following variable pairs
+    * Ado.Birth : Edu2.FM
+    * GNI: Ado.Birth
+* Minimal or zero correlation between the following variable pairs
+    * GNI : Labo.FM 
+    * GNI : Parli.FM
+    * Parli.FM : Edu2.FM
+    * Labo.FM : Edu.Exp
 
 
 
-```{r}
+<!--  More plots here (boxplots, density plots, bar plots) -->
+
+
+
+
+```{r, echo=FALSE}
 # 
 # boxplots
 
@@ -166,7 +169,7 @@ bar plots
 ```
 
     
-### **Performing the Principal component analysis (PCA)**
+### **2. Performing the Principal component analysis (PCA) on the human data**
 
 Next we'll perform principal component analysis (PCA) on the not standardized human data and show variability captured by the principal components.
 ```{r, echo=FALSE, message= FALSE, warning=FALSE}
@@ -272,6 +275,7 @@ The second biplot based on the standardized variables offers a lot of interestin
 My personal interpretations of the first two principal component dimensions based on the biplot drawn after PCA on the standardized human data. (0-2 points)
 
 
+### **3. Performing the Multiple Correspondence Analysis (MCA) on the tea data**
 
 Next we'll load the tea dataset from the package Factominer. Explore the data briefly: look at the structure and the dimensions of the data and visualize it. Then do Multiple Correspondence Analysis on the tea data (or to a certain columns of the data, it’s up to you). Interpret the results of the MCA and draw at least the variable biplot of the analysis. You can also explore other plotting options for MCA. Comment on the output of the plots. (0-4 points)
 
@@ -346,7 +350,7 @@ plot(mca, invisible=c(habillage="quali"), title= "MCA factor map - tea drinking 
 ### Some conclusions of the MCA and it's plot
 * There’s a clear difference in the social role of tea between females and males. Men prefer drinking tea alone more often than women and women tend to drink tea with friends more often than men.
 
-This proportional barplot confirms that women drink tea more with friends than men do (which was suggested by the MCA-plot above).
+This proportional barplot confirms that women drink tea more with friends than men do (which was also suggested by the MCA-plot above).
 
 ```{r, echo=FALSE}
 
