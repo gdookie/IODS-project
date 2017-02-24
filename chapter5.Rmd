@@ -26,16 +26,21 @@ human <- read.table ("http://s3.amazonaws.com/assets.datacamp.com/production/cou
 ```
 
 #Chapter 5 - Dimensionality reduction techniques
-##### The Human Development Index dataset was created to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not economic growth alone. Here, I have wrangled this data into a more concise form (according to the aims of the chapter 5 exercise) and named it "human".
+##### The Human Development Index dataset was created to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not economic growth alone. Here, I have wrangled this data into a more concise form and named it "human". In the following data analysis I’m going to  perform Principal Correspondence Analysis (PCA) on the human dataset and then Multiple Correspondence Analysis (MCA) on the tea dataset. Before the actual analysis I'll go through some preliminary explorations of the data.
+
+Here are links to the metadata of the Human Development Index dataset.
+
+* [Human Development Index](http://hdr.undp.org/en/content/human-development-index-hdi)
+* [Calculating the human development indices](http://hdr.undp.org/sites/default/files/hdr2015_technical_notes.pdf)
  
 
 ### 1. Preliminary explorations of the data
-#### **2.1 The structure and the dimensions of the data**
+#### **1.1 The structure and the dimensions of the data**
 Below is the structure of the human dataset. The following characteristics of the dataframe can be discerned.
 
 * 155 rows
 * 8 variables
-    * Datatypes: numeric and int (GD: the GNI is Factor --> check whether this should be corrected in the .R file)
+<!-- Datatypes: numeric and int (GD: the GNI is Factor --> check whether this should be corrected in the .R file) -->
 
 
 
@@ -48,7 +53,7 @@ str(human)
 ```
 <!--Show a graphical overview of the data and show summaries of the variables in the data. Describe and interpret the outputs, commenting on the distributions of the variables and the relationships between them. (0-2 points)-->
 
-#### **2.2 The summary of the data**
+#### **1.2 The summary of the data**
 Here we'll print out the summary of the data with the *summary()* function to get a grasp of the min, max, median, mean and quantiles of the data.
 
 ```{r, echo=FALSE}
@@ -57,7 +62,7 @@ summary(human)
 ```
 
 Here are the standard deviations of the variables.
-(Add some analysis here)
+
 
 ```{r, echo=FALSE}
 # Lasketaan muuttujien keskihajonnat (tehdään tämä uudestaan, kun muuttujat on skaalattu)
@@ -75,13 +80,13 @@ summarise (human, sd(Edu2.FM),sd(Labo.FM),sd(Edu.Exp),sd(Life.Exp),sd(GNI),sd(Ma
 
 ```
 
-#### **2.3 The graphical overview of the summarized data**
-First we'll produce a matrix plot with the basic packages pairs.
+#### **1.3 The graphical overview of the summarized data**
+First we'll produce a matrix plot with the basic package's pairs() and then with GGally package's ggpairs().
 
 ```{r, echo=FALSE}
 # Then we'll take a look at the graphical overview
 pairs(human)
-#ggpairs(human)
+ggpairs(human)
 
 
 
@@ -338,14 +343,25 @@ plot(mca, invisible=c(habillage="quali"), title= "MCA factor map - tea drinking 
 
 ```
 
+### Some conclusions of the MCA and it's plot
+* There’s a clear difference in the social role of tea between females and males. Men prefer drinking tea alone more often than women and women tend to drink tea with friends more often than men.
+
+This proportional barplot confirms that women drink tea more with friends than men do (which was suggested by the MCA-plot above).
 
 ```{r, echo=FALSE}
+
+ggplot(tea_time, aes(x = sex, fill = friends)) + 
+  geom_bar(position = "fill") + ylab("Proportion")
 
 ```
 
 
+The above MCA-biplot showed that women regard tea drinking more than men as sophisticated. This finding is confirmed in the barplot below.
+
 ```{r,echo=FALSE}
 
+ggplot(tea_time, aes(x = sex, fill = sophisticated)) + 
+  geom_bar(position = "fill") + ylab("Proportion")
 
 ```
 
