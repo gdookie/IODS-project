@@ -1,6 +1,8 @@
 # Author: Gyan Dookie
 # Date: 24.02.2017
-# Description: IODS Chapter 5 wrangling exercise. Here I'm combining the human development and \n gender inequlity datasets and thus creating the human dataset which is then further wrangled and finally saved \n as the human.csv file.
+# Description: IODS Chapter 5 wrangling exercise. Here I'm combining the human development and
+# gender inequlity datasets and thus creating the human dataset which is then further wrangled and
+# finally saved as the human.csv file for further use.
 
 # Read the “Human development” and “Gender inequality” datas into R
 hd <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human_development.csv", stringsAsFactors = F)
