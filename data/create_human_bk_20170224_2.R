@@ -104,11 +104,11 @@ glimpse(human)
 
 write.csv(human, "/Users/gyandookie/IODS-project/data/human.csv", row.names = TRUE)
 
-# Here we can double check the saved file by loading it and printing some of it's contents back to the console
+# Let's double check the saved file by loading it and printing some of it's contents back to the console
 # Important: the separator is a comma (",") as the file extension .csv implies 
 
-# human <- read.csv("/Users/gyandookie/IODS-project/data/human.csv",sep=",", header=TRUE)
-# glimpse(human)
-# str(human)
-# str(human$GNI)
+human <- read.csv("/Users/gyandookie/IODS-project/data/human.csv",sep=",", header=TRUE)
+glimpse(human)
+str(human)
+str(human$GNI)
 

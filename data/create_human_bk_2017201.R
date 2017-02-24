@@ -24,21 +24,17 @@ summary(gii)
 # Current names of variables - Human development
 names(hd)
 str(hd)
-
 # Change  Human Development dataframe variable names to the following: HumDevRank, Country, HumDevIndex, LifeExpBirth, EduExpYrs, EduMeanYrs, GNI, GNIMinusHDI
-names(hd) <- c("HumDevRank", "Country", "HumDevIndex", "LifeExpBirth", "EduExpYrs", "EduMeanYrs", "GNI", "GNIMinusHDI")
 
-# Double checking that the names were changed
+# rename(hd, c("HDI.Rank" = "HumDevRank", "Human.Development.Index..HDI." = "HumDevIndex",  "Life.Expectancy.at.Birth"="LifeExpBirth","Expected.Years.of.Education"="EduExpYrs","Mean.Years.of.Education"= "EduMeanYrs", "Gross.National.Income..GNI..per.Capita"="GNI", "GNI.per.Capita.Rank.Minus.HDI.Rank"="GNIMinusHDI"))
+
+names(hd) <- c("HumDevRank", "Country", "HumDevIndex", "LifeExpBirth", "EduExpYrs", "EduMeanYrs", "GNI", "GNIMinusHDI")
 names(hd)
 str(hd)
-
 # Current names of variables - Gender inequality
 names(gii)
-
-# Change the Gender Inequality dataframe variable names to the following: GendIneqRank, Country, GendIneqIndex, MatMortRat, AdolBirthRate, ParlPercRepres, EduSecondFemale, EduSecondMale, LabParticipFemale, LabParticipMale
+# Change  Human Development dataframe variable names to the following: GendIneqRank, Country, GendIneqIndex, MatMortRat, AdolBirthRate, ParlPercRepres, EduSecondFemale, EduSecondMale, LabParticipFemale, LabParticipMale
 names(gii) <- c("GendIneqRank", "Country", "GendIneqIndex", "MatMortRat", "AdolBirthRate", "ParlPercRepres", "EduSecondFemale", "EduSecondMale", "LabParticipFemale", "LabParticipMale")
-
-# Double checking that the names were changed
 names(gii)
 str(gii)
 
@@ -48,29 +44,33 @@ names(gii)
 
 #join together the two datasets using the variable Country as the identifier. Keep only the countries in both data sets (Hint: inner join). Call the new joined data human and save it in your data folder. (1 point)
 # Here we join the two datasets by the selected identifier
-#human <- inner_join(hd, gii, by = "Country", suffix=c(".hd", ".gii")) Let's not include the suffix argument, because it wasn't asked for in this exercise
+#human <- inner_join(hd, gii, by = "Country", suffix=c(".hd", ".gii")) Let's not include the suffix argument, because it wasn't asked for in the exercise
 human <- inner_join(hd, gii, by = "Country")
-
 # Let's take a look at the new joined dataset to be sure everything is ok
 dim(human)
 glimpse(human)
 names(human)
 str(human)
+# Mutate the data: transform the Gross National Income (GNI) variable to numeric (Using string manipulation. Note that #the mutation of 'human' was not done on DataCamp).
 
-# Mutate the data: transform the Gross National Income (GNI) variable to numeric (Using string manipulation. Note that the mutation of 'human' was not done on DataCamp).
+
+#human <- mutate(human, GNI = as.numeric(GNI))
+GNIN <- str_replace(human$GNI, pattern=",", replace ="") %>% as.numeric() 
+#human$GNI<- str_replace(human$GNI, pattern=",", replace ="")
+#human$GNI <- as.numeric(human$GNI) 
+# human$GNIN <- as.numeric(human$GNI) 
+mutate(human, GNI = GNIN)
 
 
-# Here the comma character is removed from the GNI variable's values and then it's datatype is changed to numeric
-human$GNI<- str_replace(human$GNI, pattern=",", replace ="") %>% as.numeric()
 
 str(human$GNI)
 str(human)
 
-# Now we can exclude unneeded variables and keep only the columns matching the following variable names: "Country", "Edu2.FM", "Labo.FM", "Edu.Exp", "Life.Exp", "GNI", "Mat.Mor", "Ado.Birth", "Parli.F"
+# Exclude unneeded variables: keep only the columns matching the following variable names (described in the meta file above):  "Country", "Edu2.FM", "Labo.FM", "Edu.Exp", "Life.Exp", "GNI", "Mat.Mor", "Ado.Birth", "Parli.F"
 
 human <- dplyr::select(human, Country, EduSecondFemale, LabParticipFemale, EduExpYrs, LifeExpBirth, GNI,MatMortRat, AdolBirthRate, ParlPercRepres)
 
-names(human) <- c("Country", "Edu2.FM", "Labo.FM", "Edu.Exp", "Life.Exp", "GNI", "Mat.Mor", "Ado.Birth", "Parli.F")
+names(human)
 str(human)
 complete.cases(human)
 
@@ -104,11 +104,11 @@ glimpse(human)
 
 write.csv(human, "/Users/gyandookie/IODS-project/data/human.csv", row.names = TRUE)
 
-# Here we can double check the saved file by loading it and printing some of it's contents back to the console
+# Let's double check the saved file by loading it and printing some of it's contents back to the console
 # Important: the separator is a comma (",") as the file extension .csv implies 
 
-# human <- read.csv("/Users/gyandookie/IODS-project/data/human.csv",sep=",", header=TRUE)
-# glimpse(human)
-# str(human)
-# str(human$GNI)
+human <- read.csv("/Users/gyandookie/IODS-project/data/human.csv",sep=",", header=TRUE)
+glimpse(human)
+str(human)
+str(human$GNI)
 
