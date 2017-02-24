@@ -70,6 +70,7 @@ str(human)
 
 human <- dplyr::select(human, Country, EduSecondFemale, LabParticipFemale, EduExpYrs, LifeExpBirth, GNI,MatMortRat, AdolBirthRate, ParlPercRepres)
 
+# Here I change the variable names I created earlier to shorter names (because I found out that long variable names are tedious to write and prone to typos later in the analysis exercise)
 names(human) <- c("Country", "Edu2.FM", "Labo.FM", "Edu.Exp", "Life.Exp", "GNI", "Mat.Mor", "Ado.Birth", "Parli.F")
 str(human)
 complete.cases(human)
@@ -77,8 +78,6 @@ complete.cases(human)
 #Remove all rows with missing values
 data.frame(human[-1], comp = complete.cases(human))
 human <- filter(human, complete.cases(human) != FALSE)
-
-#human
 
 #Remove the observations which relate to regions instead of countries. 
 last <- nrow(human) - 7
@@ -104,11 +103,5 @@ glimpse(human)
 
 write.csv(human, "/Users/gyandookie/IODS-project/data/human.csv", row.names = TRUE)
 
-# Here we can double check the saved file by loading it and printing some of it's contents back to the console
-# Important: the separator is a comma (",") as the file extension .csv implies 
 
-# human <- read.csv("/Users/gyandookie/IODS-project/data/human.csv",sep=",", header=TRUE)
-# glimpse(human)
-# str(human)
-# str(human$GNI)
 
