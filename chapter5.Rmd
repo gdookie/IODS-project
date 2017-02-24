@@ -26,9 +26,9 @@ human <- read.table ("http://s3.amazonaws.com/assets.datacamp.com/production/cou
 ```
 
 #Chapter 5 - Dimensionality reduction techniques
-##### The Human Development Index dataset was created to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not economic growth alone. Here, I have wrangled this data into a more concise form and named it "human". In the following data analysis I’m going to  perform Principal Correspondence Analysis (PCA) on the human dataset and then Multiple Correspondence Analysis (MCA) on the tea dataset. Before the actual analysis I'll go through some preliminary explorations of the data.
+##### The Human Development Index dataset was created to emphasize that people and their capabilities should be the ultimate criteria for assessing the development of a country, not economic growth alone. Here, I have wrangled this data into a more concise form and named it "human". In the following data analysis I’m going to  perform Principal Component Analysis (PCA) on the human dataset and then Multiple Correspondence Analysis (MCA) on the tea dataset. Before the actual analysis I'll go through some preliminary explorations of the data.
 
-Here are links to the metadata of the Human Development Index dataset.
+Here are the links to the metadata of the Human Development Index dataset.
 
 * [Human Development Index](http://hdr.undp.org/en/content/human-development-index-hdi)
 * [Calculating the human development indices](http://hdr.undp.org/sites/default/files/hdr2015_technical_notes.pdf)
@@ -40,8 +40,6 @@ Below is the structure of the human dataset. The following characteristics of th
 
 * 155 rows
 * 8 variables
-<!-- Datatypes: numeric and int (GD: the GNI is Factor --> check whether this should be corrected in the .R file) -->
-
 
 
 
@@ -81,7 +79,7 @@ summarise (human, sd(Edu2.FM),sd(Labo.FM),sd(Edu.Exp),sd(Life.Exp),sd(GNI),sd(Ma
 ```
 
 #### **1.3 The graphical overview of the summarized data**
-First we'll produce a matrix plot with the basic package's pairs() and then with GGally package's ggpairs().
+Let's visualize our data to get a better overall picture of it. First we'll produce a matrix plot with the basic package's pairs() and then with GGally package's ggpairs().
 
 ```{r, echo=FALSE}
 # Then we'll take a look at the graphical overview
@@ -94,7 +92,7 @@ ggpairs(human)
 
 #### **1.4 The correlations of the data with corrplot()**
 
-Now it's time to get a picture of the correlations with the  *cor()* function. Here the correlations were rounded to two desimals to save space.
+Now it's time to produce a table of the correlations with the  *cor()* function. Here the correlations were rounded to two desimals to save space.
 
 ```{r, echo=FALSE}
 
@@ -106,7 +104,7 @@ cor_matrix
 
 #### **1.5 The graphical overview of correlations with the advanced corrplot() function**
 
-The visualization of the correlation matrix with the advanced *corrplot()* function. To reduce repetition, we'll visualize only the upper part of the plot (as is well known, the top part of the correlation matrix contains the same correlations as the bottom part)
+Here's the visualization of the correlation matrix with the advanced *corrplot()* function. To reduce repetition, we'll visualize only the upper part of the plot (as is well known, the top part of the correlation matrix contains the same correlations as the bottom part)
 
 ```{r, echo=FALSE}
 # Now we'll visualize the correlation matrix. To reduce repetition, we'll visualize only the upper part of the plot (as is well known, the top part of the correlation matrix contains the same correlations as the bottom part)
@@ -115,9 +113,9 @@ corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos = "d", tl
 
 ```
 
-The above summaries and visualizations showed the following.
+#### **1.6 The above summaries and visualizations showed the following**
 
-Here are some of the exposed correlations
+**Here are some of the exposed correlations**
 
 * Strong positive correlations between the following variable pairs
     * Edu.Exp : Life.Exp
@@ -152,7 +150,7 @@ Here are some of the exposed correlations
 
 ```
 
-Let's look at the summaries of the scaled variables and see how the variables changed ( e.g. the means are now all at zero)
+
 
 ```{r, echo=FALSE}
 
@@ -194,13 +192,13 @@ biplot(pca_human, choices = 1:2, cex=c(1.0 ,1.0), col= c("grey40", "blue"), xlab
 
 ```
 
-Standardize the variables in the human data and repeat the above analysis. Interpret the results of both analysis (with and without standardizing). Are the results different? Why or why not? Include captions in you plots where you describe the results by using not just your variable names, but the actual phenomenons they relate to. (0-4 points)
+Let's look at the summaries of the scaled variables. See how the variables changed ( e.g. the means are now all at zero).
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # standardize the variables
 human_std <- scale(human)
 summary(human_std)
-str(human_std)
+#str(human_std)
 
 ```
 ```{r, echo=FALSE}
@@ -227,7 +225,7 @@ pc_lab <- paste0(names(pca_pr), " (", pca_pr, "%)")
 biplot(pca_human, choices = 1:2, cex = c(0.8, 0.8), col = c("black", "red"), xlab = pc_lab[1] , ylab = pc_lab[2])
 ```
 
-Let's take a closer look at the countries on the "west side" of the biplot and close to PC2
+**Let's take a closer look at the countries on the "west side" of the biplot and close to PC2.**
 
 ```{r,echo=FALSE}
 
@@ -238,7 +236,7 @@ biplot(pca_human, expand=15, xlim=c(-0.30, 0.0), ylim=c(-0.1, 0.1))
 
 <!-- Give your personal interpretations of the first two principal component dimensions based on the biplot drawn after PCA on the standardized human data. (0-2 points) -->
 
-
+#### **Intepretation and analysis of PCA and the corresponding biplots**
 Let's interpret the results of both analysis and their corresponding biblots
 The biplot that was plotted from the non-standardized data (the one with the blue arrow) is not very informative. PC2 is 100% and PC1 0%. GNI is the only arrow (pointing to PC2) that is visible (all the other are packed together with no standard deviation, I guess)
 
@@ -267,12 +265,17 @@ The second biplot based on the standardized variables offers a lot of interestin
 
 ```{r}
 
-# boston_scaled <- dplyr::select(boston_scaled, -crim)
-# boston_scaled <- data.frame(boston_scaled, crime)
-# table(crime)
 ```
 
-My personal interpretations of the first two principal component dimensions based on the biplot drawn after PCA on the standardized human data. (0-2 points)
+**Intepretation of PC1**
+
+Generally speaking, the 1st principal component captures the maximum amount of variance from the features in the original data. Here the amount of variance of the data captured by PC1 is 53.6 %.
+The variables/features connected to the PC1 dimension are Mat.Mor (maternal mortality) and Ado.Birth (adolescent birth) pointing their arrows horizontally to the right and Edu.Exp, Life.Exp, Edu2.FM and GNI pointing their arrows horizontally to the left (Mat.Mor and Ado.Birth have a strong negative correlation with Edu.Exp, Life.Exp, Edu2.FM and GNI, as I explained above).
+The countries on the right end of the PC1’s horizontal axis are mostly poor African countries with low education connected numbers and on the opposite side (left) rich European and Asian countries (+ the USA) with high education connected numbers.
+
+**Intepretation of PC2**
+
+The 2nd principal component PC2 is orthogonal to the first and it captures the maximum amount of variability/variance left. Here that amount is 16.2 %. PC2 describes how actively women take part in the political sphere and the working life of the society they live in. Many Arab states are located at the low end of the vertical PC2 axis shown in the plot.
 
 
 ### **3. Performing the Multiple Correspondence Analysis (MCA) on the tea data**
@@ -288,7 +291,7 @@ data(tea)
 ```
 Let's explore the data briefly: look at the structure and the dimensions of the data and visualize it.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 # column names to keep in the dataset
 keep_columns <- c("Sport", "effect.on.health", "sophisticated", "spirituality", "friends", "sex")
 #keep_columns <- c("Tea", "How", "how", "sugar", "where", "lunch")
@@ -318,7 +321,7 @@ summary(tea)
 
 ```
 
-Let's take a look at the correlations of the tea dataset with cor() (produces a correlation matrix) and corrplot() (visualizes the correlation matrix as pairs)
+<!-- Let's take a look at the correlations of the tea dataset with cor() (produces a correlation matrix) and corrplot() (visualizes the correlation matrix as pairs)-->
 
 
 ````{r, echo=FALSE}
@@ -338,7 +341,27 @@ mca <- MCA(tea_time, graph = FALSE)
 
 # summary of the model
 summary(mca)
-names(mca)
+```
+
+**Analyzing the MCA's summary table**
+
+* The eigen values show the amount of variance captured by the different dimensions. Here we can see the following.
+    * Dimension 1 captures 22.5 % of the variance within the data 
+    * Dimension 2 captures 17.5 % of the variance within the data
+    *The first two dimensions capture approximately 40 % of the variance within the data. This amount is considerably lower than the amount captured by the first two principal components in the previous analysis of the human dataset.
+* The individuals
+    * the individuals coordinates, the individuals contribution (%) on the dimension and the cos2 (the squared correlations) on the dimensions.
+* The categories
+    * The Categories part shows coordinates of the variable categories, the contribution (%), the cos2 (the squared correlations) and v.test value.
+
+* The Categorical value
+    * Shows the squared correlation between each variable and the dimensions
+    * If the value is close to one it indicates a strong link with the variable and dimension. Here (among the three dimensions shown), only Dimension 3 and and the effect.on.health have a categorical variable that is close to one (0.876)
+
+
+
+```{r, echo=FALSE}
+#names(mca)
 # visualize MCA
 plot(mca, invisible=c(habillage="quali"), title= "MCA factor map - tea drinking vs. \n sport, social and spiritual orientations")
 
@@ -347,7 +370,7 @@ plot(mca, invisible=c(habillage="quali"), title= "MCA factor map - tea drinking 
 
 ```
 
-### Some conclusions of the MCA and it's plot
+##### Some conclusions of the MCA and it's plot
 * There’s a clear difference in the social role of tea between females and males. Men prefer drinking tea alone more often than women and women tend to drink tea with friends more often than men.
 
 This proportional barplot confirms that women drink tea more with friends than men do (which was also suggested by the MCA-plot above).
