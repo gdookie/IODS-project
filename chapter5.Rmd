@@ -342,7 +342,7 @@ summary(tea_time)
 
 ```
 
-#### 3.3 **The visual overview of the data**
+#### **3.3 The visual overview of the data**
 
 ```{r, echo=FALSE, warning=FALSE}
 
@@ -409,7 +409,7 @@ plot(mca, invisible=c(habillage="quali"), title= "MCA factor map - tea drinking 
 
 ```
 
-#### **3.6 Some conclusions of the MCA and it's plot**
+#### **3.7 Some conclusions of the MCA and it's plot**
 * There’s a clear difference in the social role of tea between females and males. Men prefer drinking tea alone more often than women and women tend to drink tea with friends more often than men.
 
 This proportional barplot confirms that women drink tea more with friends than men do (which was also suggested by the MCA-plot above).
