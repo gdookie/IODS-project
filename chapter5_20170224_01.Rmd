@@ -281,8 +281,7 @@ Let's explore the data briefly: look at the structure and the dimensions of the 
 
 ```{r, echo=FALSE}
 # column names to keep in the dataset
-keep_columns <- c("Sport", "effect.on.health", "sophisticated", "spirituality", "friends", "sex")
-#keep_columns <- c("Tea", "How", "how", "sugar", "where", "lunch")
+keep_columns <- c("Tea", "How", "how", "sugar", "where", "lunch")
 keep_columns
 #head(tea)
 dim(tea)
@@ -331,7 +330,7 @@ mca <- MCA(tea_time, graph = FALSE)
 summary(mca)
 names(mca)
 # visualize MCA
-plot(mca, invisible=c(habillage="quali"), title= "MCA factor map - tea drinking vs. \n sport, social and spiritual orientations")
+plot(mca, invisible=c(habillage="quali"))
 
 
 
